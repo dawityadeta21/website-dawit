@@ -1,0 +1,2494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHPLE Preparation Study</title>
+    <!-- Include Marked.js for Rich Markdown Notes Parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-accent: #1e3a8a;
+            --accent: #2563eb;
+            --success: #166534;
+            --success-bg: #dcfce7;
+            --gold: #b45309;
+            --gold-bg: #fef3c7;
+            --danger: #991b1b;
+            --danger-bg: #fee2e2;
+            --bg-light: #f8fafc;
+            --text-main: #334155;
+            --border: #cbd5e1;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; }
+        
+        /* Main Header */
+        header {
+            background: var(--primary-accent);
+            color: white;
+            padding: 0.9rem 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        header h1 { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.5px; display: none; }
+
+        /* Header Search Input Style */
+        .header-search-wrap {
+            flex: 1;
+            max-width: 300px;
+            margin: 0 15px;
+        }
+        .header-search-input {
+            width: 100%;
+            padding: 7px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.85rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .header-search-input::placeholder {
+            color: #cbd5e1;
+        }
+        .header-search-input:focus {
+            background: rgba(255,255,255,0.2);
+            border-color: #38bdf8;
+        }
+
+        /* Candidate Header Profile Bar */
+        .user-header-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+        .user-badge {
+            background: rgba(255,255,255,0.15);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .user-badge.clickable:hover {
+            opacity: 0.9;
+            text-decoration: underline;
+        }
+        .access-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        .access-pill.active {
+            background: #22c55e;
+            color: #052e16;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+        }
+        .access-pill.free {
+            background: #e2e8f0;
+            color: #334155;
+        }
+        .btn-header-auth {
+            background: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-header-auth:hover { background: #7dd3fc; }
+
+        /* Top Discipline Switcher Bar */
+        .discipline-bar {
+            background: #1e293b;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px 20px;
+            gap: 10px;
+            align-items: center;
+            border-bottom: 2px solid #334155;
+        }
+        .discipline-label { color: #f8fafc; font-size: 0.85rem; font-weight: bold; margin-right: 6px; }
+        .discipline-btn {
+            background: #334155;
+            color: #cbd5e1;
+            border: 1px solid #475569;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .discipline-btn:hover { background: #475569; color: #fff; }
+        .discipline-btn.active { background: #0284c7; color: white; border-color: #38bdf8; }
+        
+        /* Course & Account Navigation Tabs */
+        .nav-tabs {
+            background: var(--primary);
+            display: flex;
+            flex-wrap: wrap;
+            padding: 8px 15px;
+            gap: 5px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            overflow-x: auto;
+        }
+        .nav-tab {
+            color: #cbd5e1;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 7px 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: 0.2s;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+        .nav-tab:hover { color: white; background: rgba(255,255,255,0.12); }
+        .nav-tab.active { color: white; background: var(--accent); border-color: var(--accent); }
+        
+        .nav-tab.pdf-tab-btn {
+            background: #1e3a8a;
+            color: #93c5fd;
+            border-color: #3b82f6;
+        }
+        .nav-tab.pdf-tab-btn:hover { background: #1d4ed8; color: white; }
+
+        .nav-tab.about-tab-btn {
+            background: #475569;
+            color: #f8fafc;
+            border-color: #64748b;
+        }
+        .nav-tab.about-tab-btn:hover { background: #334155; }
+
+        .nav-tab.comments-tab-btn {
+            background: #7c3aed;
+            color: white;
+            border-color: #8b5cf6;
+        }
+        .nav-tab.comments-tab-btn:hover { background: #6d28d9; }
+
+        .nav-tab.support-tab-btn {
+            background: #0088cc;
+            color: white;
+            border-color: #38bdf8;
+        }
+        .nav-tab.support-tab-btn:hover { background: #0077b5; }
+
+        .nav-tab.delete-tab-btn {
+            background: #991b1b;
+            color: white;
+            border-color: #b91c1c;
+        }
+        .nav-tab.delete-tab-btn:hover { background: #7f1d1d; }
+
+        .nav-tab.account-tab-btn {
+            background: #047857;
+            color: white;
+            border-color: #10b981;
+            margin-left: auto;
+        }
+        .nav-tab.account-tab-btn:hover { background: #059669; }
+
+        .support-card {
+            max-width: 620px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .support-card p { color: #475569; margin-bottom: 15px; }
+        .support-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #0088cc;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .support-link:hover { background: #0077b5; }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a, #0284c7);
+            color: white;
+            text-align: center;
+            padding: 1.8rem 1rem;
+        }
+        .hero h2 { font-size: 1.55rem; margin-bottom: 5px; }
+        .hero p { font-size: 0.92rem; opacity: 0.95; max-width: 850px; margin: 0 auto; }
+
+        /* Active License Notification Ribbon */
+        .license-ribbon {
+            background: #ecfdf5;
+            border-bottom: 2px solid #a7f3d0;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            color: #065f46;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+        .license-ribbon.warning {
+            background: #fffbeb;
+            border-bottom: 2px solid #fde68a;
+            color: #92400e;
+        }
+
+        /* Container & Sections */
+        .container { max-width: 1000px; margin: 25px auto; padding: 0 20px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        section { background: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        section h3 { color: var(--primary-accent); margin-bottom: 15px; border-bottom: 2px solid var(--bg-light); padding-bottom: 10px; font-size: 1.25rem; }
+        
+        /* Study Notes Box (Markdown Stylings) */
+        .study-notes-box { background: #f8fafc; border-left: 4px solid #059669; padding: 18px 20px; margin-bottom: 20px; border-radius: 0 8px 8px 0; }
+        .study-notes-box h4 { color: #065f46; margin-bottom: 8px; font-size: 1.05rem; }
+        .study-notes-box p, .study-notes-box li, .markdown-body p, .markdown-body li { font-size: 0.9rem; color: #475569; margin: 5px 0; }
+        .study-notes-box ul, .markdown-body ul { padding-left: 20px; }
+        .markdown-body strong { color: #1e293b; }
+
+        /* Department Cards in About Us */
+        .dept-about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .dept-about-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 18px;
+            border-top: 4px solid var(--primary-accent);
+        }
+        .dept-about-card h4 { color: var(--primary-accent); margin-bottom: 8px; font-size: 1rem; }
+        .dept-about-card p { font-size: 0.85rem; color: #475569; margin-bottom: 10px; }
+        .dept-about-card ul { padding-left: 18px; font-size: 0.83rem; color: #334155; }
+
+        /* PDF Hub Card Styles */
+        .pdf-hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .pdf-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: 0.2s;
+        }
+        .pdf-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(37,99,235,0.08);
+        }
+        .pdf-card-title { font-weight: 700; color: #1e3a8a; font-size: 0.95rem; margin-bottom: 6px; }
+        .pdf-card-desc { font-size: 0.82rem; color: #64748b; margin-bottom: 12px; }
+        .pdf-card-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: #475569; margin-bottom: 12px; font-weight: 600; }
+        .pdf-btn-group {
+            display: flex;
+            gap: 6px;
+        }
+        .btn-download-hub {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            flex: 1;
+        }
+        .btn-download-hub:hover { background: #0369a1; }
+        .btn-download-hub.locked {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        /* PDF View Box */
+        .pdf-download-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .pdf-download-box p { font-size: 0.88rem; color: #1e3a8a; font-weight: 600; margin: 0; }
+        .pdf-action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-download-pdf {
+            background: #0284c7;
+            color: white;
+            text-decoration: none;
+            padding: 7px 12px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-download-pdf:hover { background: #0369a1; }
+
+        /* Locked Notes Banner */
+        .locked-notes-banner {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+        }
+        .locked-notes-banner p { font-size: 0.9rem; color: #b45309; margin-bottom: 10px; font-weight: 600; }
+        .btn-unlock-notes {
+            background: #d97706;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-size: 0.88rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-unlock-notes:hover { background: #b45309; }
+
+        /* Interactive Quiz Box */
+        .quiz-box-inner { background: #f1f5f9; padding: 20px; border-radius: 8px; border: 1px solid var(--border); margin-top: 20px; }
+        .question-counter { font-size: 0.85rem; color: #64748b; font-weight: bold; margin-bottom: 8px; }
+        .question-box { font-weight: 600; font-size: 1rem; margin-bottom: 12px; color: #0f172a; line-height: 1.5; }
+        .options label {
+            display: block;
+            background: white;
+            border: 1px solid var(--border);
+            padding: 10px 14px;
+            margin: 8px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .options label:hover { background: #e2e8f0; }
+        input[type="radio"] { margin-right: 10px; }
+        
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn:hover { background: #1d4ed8; }
+        
+        .feedback { margin-top: 12px; padding: 12px; border-radius: 6px; display: none; font-size: 0.9rem; }
+        .feedback.correct { background: var(--success-bg); color: var(--success); border: 1px solid #bbf7d0; }
+        .feedback.incorrect { background: var(--danger-bg); color: var(--danger); border: 1px solid #fecaca; }
+        .explanation { margin-top: 8px; font-size: 0.88rem; color: #475569; background: white; padding: 10px; border-radius: 5px; display: none; border: 1px solid var(--border); }
+
+        /* Account Registration Tab Styling */
+        .auth-card {
+            max-width: 580px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+        }
+        .auth-nav {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+        .auth-nav-btn {
+            flex: 1;
+            padding: 10px 5px;
+            border: none;
+            background: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.2s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            text-align: center;
+        }
+        .auth-nav-btn.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        .method-selector {
+            display: flex;
+            gap: 10px;
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .method-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            background: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+        }
+        .method-btn.active {
+            background: white;
+            color: var(--primary-accent);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #1e293b;
+            background: #f8fafc;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: #fff;
+        }
+        .phone-input-wrap {
+            display: flex;
+            gap: 8px;
+        }
+        .phone-prefix {
+            background: #e2e8f0;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #334155;
+            display: flex;
+            align-items: center;
+        }
+        .auth-submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #0284c7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .auth-submit-btn:hover { background: #0369a1; }
+        .auth-footer-text {
+            text-align: center;
+            font-size: 0.82rem;
+            color: #64748b;
+            margin-top: 15px;
+        }
+        .auth-footer-text a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Candidate Profile Dashboard View */
+        .profile-dashboard {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .profile-header-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .avatar-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #0284c7;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-info h4 { font-size: 1.2rem; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+        .btn-edit-name-small {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #2563eb;
+            cursor: pointer;
+        }
+        .btn-edit-name-small:hover { background: #e2e8f0; }
+        .profile-info p { font-size: 0.85rem; color: #64748b; }
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        .profile-stat-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        .profile-stat-box strong { display: block; font-size: 0.78rem; color: #64748b; text-transform: uppercase; }
+        .profile-stat-box span { font-size: 0.95rem; font-weight: 700; color: #1e3a8a; }
+
+        .vip-status-card {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .vip-status-card.locked {
+            background: #fffbeb;
+            border-color: #fde68a;
+        }
+        .vip-title { font-weight: 700; font-size: 0.95rem; }
+        .vip-desc { font-size: 0.82rem; color: #475569; }
+
+        /* Paywall Modal */
+        .paywall-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.85); justify-content: center; align-items: center; z-index: 2000; overflow-y: auto; padding: 20px;
+        }
+        .paywall-card { background: white; padding: 30px; border-radius: 12px; max-width: 520px; width: 100%; text-align: left; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); }
+        .paywall-card h3 { color: #1e3a8a; margin-bottom: 6px; text-align: center; }
+        .paywall-card p { color: #64748b; font-size: 0.88rem; margin-bottom: 12px; text-align: center; }
+        
+        .payment-method-box { background: #f8fafc; border: 1px solid var(--border); padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 0.82rem; }
+        .payment-method-box strong { color: #1e3a8a; display: block; margin-bottom: 2px; }
+        
+        .upload-prompt-header {
+            margin-top: 14px;
+            margin-bottom: 6px;
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 8px 12px;
+            border-radius: 0 6px 6px 0;
+        }
+        .upload-prompt-header strong {
+            color: #1e3a8a;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .upload-prompt-header span {
+            display: block;
+            font-size: 0.77rem;
+            color: #475569;
+            margin-top: 2px;
+        }
+
+        .upload-zone {
+            border: 2px dashed #93c5fd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 4px;
+        }
+        .upload-zone:hover { border-color: var(--accent); background: #eff6ff; }
+        .upload-zone p { font-size: 0.86rem; color: #1e293b; margin-bottom: 2px; font-weight: 600; }
+        .upload-zone span { font-size: 0.75rem; color: #64748b; }
+
+        .direct-telegram-status {
+            margin-top: 10px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.84rem;
+            display: none;
+            text-align: left;
+            background: #eff6ff;
+            color: #1e3a8a;
+            border: 1px solid #bfdbfe;
+        }
+
+        .request-code-banner {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+            text-align: center;
+        }
+        .request-code-banner p { font-size: 0.84rem; color: #065f46; margin-bottom: 8px; font-weight: 600; }
+        .btn-telegram {
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(0, 136, 204, 0.3);
+            cursor: pointer;
+            border: none;
+        }
+        .btn-telegram:hover { background: #0077b5; }
+
+        .receipt-input-group { margin-top: 12px; }
+        .receipt-input-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; color: #0f172a; }
+        .receipt-input-group input { width: 100%; padding: 9px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; }
+        
+        .btn-verify { background: #059669; color: white; width: 100%; padding: 11px; font-size: 1rem; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin-top: 12px; }
+        .btn-verify:hover { background: #047857; }
+
+        footer {
+            text-align: center; padding: 25px 20px; color: #64748b; font-size: 0.85rem; border-top: 1px solid var(--border); background: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-container" style="display: flex; align-items: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 65" width="320" height="55" style="max-height: 55px; width: auto;">
+              <defs>
+                <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ff7700" />
+                  <stop offset="100%" stop-color="#b32400" />
+                </linearGradient>
+                <linearGradient id="blackBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#141414" />
+                  <stop offset="100%" stop-color="#000000" />
+                </linearGradient>
+              </defs>
+              <g transform="translate(6, 5)">
+                <path d="M 27 2 L 48 12 L 48 34 C 48 46 37 52 27 56 C 17 52 6 46 6 34 L 6 12 Z" fill="url(#blackBg)" stroke="url(#orangeGrad)" stroke-width="2.5" />
+                <path d="M 27 6 L 43 14 L 43 32 C 43 42 34 48 27 51 C 20 48 11 42 11 32 L 11 14 Z" fill="none" stroke="#222222" stroke-width="1" />
+                <path d="M 27 16 L 27 38 M 17 27 L 37 27" stroke="url(#orangeGrad)" stroke-width="4" stroke-linecap="round" />
+                <circle cx="27" cy="27" r="3.5" fill="#ff7700" />
+                <circle cx="27" cy="27" r="1.5" fill="#000000" />
+              </g>
+              <text x="68" y="27" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="14" fill="#ff7700" letter-spacing="0.5">
+                EHPLE PREPARATION STUDY
+              </text>
+              <text x="68" y="44" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="9" fill="#ff9933" letter-spacing="0.8">
+                MULTIDISCIPLINARY HEALTH LICENSING PORTAL
+              </text>
+              <line x1="68" y1="50" x2="365" y2="50" stroke="#331100" stroke-width="0.75" stroke-dasharray="3 3" />
+            </svg>
+        </div>
+
+        <!-- Search Bar Positioned Here -->
+        <div class="header-search-wrap">
+            <input type="text" id="header-search-input" class="header-search-input" placeholder="🔍 Search portal..." onkeyup="handleHeaderSearch(event)">
+        </div>
+
+        <div class="user-header-status" id="header-user-status">
+            <span class="access-pill free" id="header-access-pill">🔒 Account Required</span>
+            <button class="btn-header-auth" onclick="switchToAccountTab()">Sign Up / Sign In</button>
+        </div>
+    </header>
+
+    <!-- License Alert Ribbon -->
+    <div class="license-ribbon" id="license-ribbon"></div>
+
+    <!-- Top Discipline Switcher Bar -->
+    <div class="discipline-bar" id="discipline-bar-container">
+        <span class="discipline-label">Select Candidate Discipline:</span>
+        <button class="discipline-btn active" id="btn-disc-midwifery" onclick="changeDiscipline('midwifery')">Midwifery (12 Domains) <span id="disc-status-midwifery">🔒</span></button>
+        <button class="discipline-btn" id="btn-disc-nursing" onclick="changeDiscipline('nursing')">Nursing <span id="disc-status-nursing">🔒</span></button>
+        <button class="discipline-btn" id="btn-disc-pharmacy" onclick="changeDiscipline('pharmacy')">Pharmacy <span id="disc-status-pharmacy">🔒</span></button>
+        <button class="discipline-btn" id="btn-disc-laboratory" onclick="changeDiscipline('laboratory')">Medical Lab <span id="disc-status-laboratory">🔒</span></button>
+    </div>
+
+    <!-- Course & Account Navigation Tabs -->
+    <div class="nav-tabs" id="course-nav-tabs"></div>
+
+    <div class="hero">
+        <h2 id="hero-title">Multidisciplinary Health Licensing & Exit Exam Portal</h2>
+        <p id="hero-desc">The definitive multidisciplinary digital preparation platform for Ethiopian healthcare graduates. Access over 1,000 rigorous board exam questions, official curriculum PDFs, and a 40-volume textbook library designed specifically for Midwifery, Nursing, Pharmacy, and Medical Laboratory Science licensure.</p>
+    </div>
+
+    <div class="container">
+
+        <!-- WELCOME INTRODUCTION SECTION (Hidden when full access is active) -->
+        <section id="welcome-intro-section" style="background: linear-gradient(135deg, #f8fafc, #eff6ff); border: 1px solid #bfdbfe;">
+            <h3>Welcome to the Ethiopian Health Professionals Licensing & Exit Exam (EHPLE) Portal</h3>
+            <div class="study-notes-box" style="border-left-color: #2563eb; background: white;">
+                <h4>🏥 Excellence in Ethiopian Healthcare Education & Licensure</h4>
+                <p>Designed to bridge the gap between classroom theory and national board standards, our platform empowers healthcare professionals across Ethiopia with targeted preparation tools, verified mock items, and seamless verification workflows.</p>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Comprehensive Departmental Coverage:</strong> Tailored exam modules mapped directly to official Ministry of Education and Ministry of Health competency blueprints for Midwifery (12 Domains), Comprehensive Nursing, Pharmacy (15 Exit Courses), and Medical Laboratory Science.</li>
+                    <li><strong>Extensive Question Banks:</strong> Practice with over 200 high-yield, scenario-based items per module complete with detailed clinical rationales, first-line management steps, and national guideline compliance references.</li>
+                    <li><strong>Integrated PDF Reading & Textbook Hubs:</strong> Instantly access or download curriculum module summaries and comprehensive departmental reference libraries featuring 10 essential textbooks per discipline.</li>
+                    <li><strong>Transparent Verification Workflow:</strong> Secure your 1-year full-access license seamlessly through trusted Ethiopian payment channels (TeleBirr and major commercial banks) with direct Telegram verification via <strong>@ehplesupport</strong>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- DYNAMIC COURSE SECTIONS INJECTED HERE -->
+        <div id="course-sections-container"></div>
+
+        <!-- SEARCH PORTAL TAB -->
+        <div id="tab-search-portal" class="tab-content">
+            <section>
+                <h3>🔍 Universal EHPLE Portal Search Results</h3>
+                <div class="study-notes-box" style="border-left-color: #0284c7;">
+                    <h4>Search Findings</h4>
+                    <p>Showing matching curriculum modules, textbooks, and updated files from your query.</p>
+                </div>
+                <div id="global-search-results" class="pdf-hub-grid">
+                    <p style="grid-column: 1 / -1; text-align:center; color:#64748b; padding:20px;">Type a keyword in the header search bar above to explore portal resources.</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- PERMANENT PDF READING MATERIAL HUB TAB -->
+        <div id="tab-pdf-hub" class="tab-content">
+            <section>
+                <h3>📥 National PDF Reading Material & Module Library</h3>
+                <div class="study-notes-box">
+                    <h4>📚 Official EHPLE Competency Blueprints (Read Online Only)</h4>
+                    <p>Access study guides and online reading documents stored securely in your portal.</p>
+                    <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="discipline-btn active" id="pdf-hub-btn-midwifery" onclick="switchPdfHubDiscipline('midwifery')">Midwifery</button>
+                        <button class="discipline-btn" id="pdf-hub-btn-nursing" onclick="switchPdfHubDiscipline('nursing')">Nursing</button>
+                        <button class="discipline-btn" id="pdf-hub-btn-pharmacy" onclick="switchPdfHubDiscipline('pharmacy')">Pharmacy</button>
+                        <button class="discipline-btn" id="pdf-hub-btn-laboratory" onclick="switchPdfHubDiscipline('laboratory')">Medical Lab</button>
+                    </div>
+                </div>
+
+                <div class="pdf-hub-grid" id="pdf-hub-cards-container"></div>
+            </section>
+        </div>
+
+        <!-- EHPLE TEXTBOOK LIBRARY TAB -->
+        <div id="tab-books" class="tab-content">
+            <section>
+                <h3>📖 Official EHPLE Reference Textbook Library (Read Online Only)</h3>
+                <div class="study-notes-box" style="border-left-color: #4f46e5;">
+                    <h4>📚 Departmental Reference Books</h4>
+                    <p>Access department-specific reference textbooks securely online within the portal viewer.</p>
+                    <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="discipline-btn active" id="books-hub-btn-midwifery" onclick="switchBooksHubDiscipline('midwifery')">Midwifery</button>
+                        <button class="discipline-btn" id="books-hub-btn-nursing" onclick="switchBooksHubDiscipline('nursing')">Nursing</button>
+                        <button class="discipline-btn" id="books-hub-btn-pharmacy" onclick="switchBooksHubDiscipline('pharmacy')">Pharmacy</button>
+                        <button class="discipline-btn" id="books-hub-btn-laboratory" onclick="switchBooksHubDiscipline('laboratory')">Medical Lab</button>
+                    </div>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="text" id="book-search-input" placeholder="🔍 Search books..." onkeyup="filterTextbooks()" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem;">
+                </div>
+                <div class="pdf-hub-grid" id="book-hub-cards-container"></div>
+            </section>
+        </div>
+
+        <!-- UPDATED FILES HUB TAB (AUTO-DETECTED FROM SERVER) -->
+        <div id="tab-updated-files" class="tab-content">
+            <section>
+                <h3>📁 Updated Files</h3>
+                <div class="study-notes-box" style="border-left-color: #0d9488;">
+                    <h4>📚 Departmental Updates & Additions</h4>
+                    <p>Access continuously updated files and supplementary resources for your department securely online within the portal viewer.</p>
+                    <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="discipline-btn active" id="updates-hub-btn-midwifery" onclick="switchUpdatesHubDiscipline('midwifery')">Midwifery</button>
+                        <button class="discipline-btn" id="updates-hub-btn-nursing" onclick="switchUpdatesHubDiscipline('nursing')">Nursing</button>
+                        <button class="discipline-btn" id="updates-hub-btn-pharmacy" onclick="switchUpdatesHubDiscipline('pharmacy')">Pharmacy</button>
+                        <button class="discipline-btn" id="updates-hub-btn-laboratory" onclick="switchUpdatesHubDiscipline('laboratory')">Medical Lab</button>
+                    </div>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="text" id="updated-file-search-input" placeholder="🔍 Search updated files..." onkeyup="filterUpdatedFiles()" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem;">
+                </div>
+                <div class="pdf-hub-grid" id="updated-files-cards-container">
+                    <p style="text-align:center; color:#64748b; padding:20px;">Loading uploaded files automatically...</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- ABOUT US TAB -->
+        <div id="tab-about-us" class="tab-content">
+            <section>
+                <h3>About Us & Departmental Competency Overview</h3>
+                <div class="study-notes-box" style="border-left-color: #1e3a8a;">
+                    <h4>🏥 Excellence in Ethiopian Healthcare Education & Licensure</h4>
+                    <p>The Ethiopian Health Professionals Licensing & Exit Exam (EHPLE) Portal is a multidisciplinary digital preparation platform dedicated to empowering healthcare graduates across Ethiopia.</p>
+                </div>
+                <h4 style="color: var(--primary-accent); margin: 20px 0 10px 0; font-size: 1.1rem;">Our Core Multidisciplinary Departments & Frameworks</h4>
+                <div class="dept-about-grid">
+                    <div class="dept-about-card">
+                        <h4>👶 Midwifery Department</h4>
+                        <p>Built upon the official <strong>12 National Graduate Domains & Competencies</strong>.</p>
+                    </div>
+                    <div class="dept-about-card">
+                        <h4>💉 Comprehensive Nursing Department</h4>
+                        <p>Structured across 5 core competency domains.</p>
+                    </div>
+                    <div class="dept-about-card">
+                        <h4>💊 Pharmacy Department</h4>
+                        <p>Encompasses 5 major themes across 15 exit exam courses.</p>
+                    </div>
+                    <div class="dept-about-card">
+                        <h4>🔬 Medical Laboratory Science</h4>
+                        <p>Encompasses clinical microbiology, parasitology, hematology, chemistry, and QA.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- COMMUNITY COMMENTS TAB -->
+        <div id="tab-comments" class="tab-content">
+            <section>
+                <h3>💬 Candidate Community Comments & Discussion</h3>
+                <div class="study-notes-box" style="border-left-color: #7c3aed;">
+                    <h4>📢 Share Your Insights & Exam Prep Experience</h4>
+                    <p>Connect with fellow healthcare candidates across Ethiopia.</p>
+                </div>
+                <div id="comment-form-container" style="background:#f8fafc; border:1px solid var(--border); padding:20px; border-radius:8px; margin-bottom:20px; display:none;">
+                    <h4 style="color:#1e3a8a; margin-bottom:10px; font-size:0.95rem;">Write a Comment</h4>
+                    <form onsubmit="handlePostComment(event)">
+                        <div class="form-group">
+                            <textarea id="comment-text-input" rows="3" placeholder="Share your thoughts, study questions, or exam tips..." required style="width:100%; padding:10px; border:1px solid var(--border); border-radius:6px; font-size:0.9rem;"></textarea>
+                        </div>
+                        <button type="submit" class="btn" style="background:#7c3aed;">Post Comment 💬</button>
+                    </form>
+                </div>
+                <div id="comment-login-prompt" style="background:#fffbeb; border:1px solid #fde68a; padding:15px; border-radius:8px; text-align:center; margin-bottom:20px; display:none;">
+                    <p style="color:#b45309; font-size:0.9rem; font-weight:600; margin-bottom:8px;">🔒 Please sign in or create an account to post a comment.</p>
+                    <button class="btn" style="background:#0284c7; padding:6px 14px; font-size:0.85rem;" onclick="switchToAccountTab()">Sign In / Register Now</button>
+                </div>
+                <div id="comments-list-container"></div>
+            </section>
+        </div>
+
+        <!-- CONTACT SUPPORT TAB -->
+        <div id="tab-contact-support" class="tab-content">
+            <section class="support-card">
+                <h3>Contact Support</h3>
+                <p>For payment confirmation, verification codes, account help, or other questions, contact support directly on Telegram.</p>
+                <a class="support-link" href="https://t.me/ehplesupport" target="_blank" rel="noopener noreferrer">
+                    ✈️ Open Telegram @ehplesupport
+                </a>
+                <p style="margin-top: 15px; margin-bottom: 0; font-size: 0.85rem;">Telegram username: <strong>@ehplesupport</strong></p>
+            </section>
+        </div>
+
+        <!-- DELETE ACCOUNT TAB -->
+        <div id="tab-delete-account" class="tab-content">
+            <section>
+                <h3>🗑️ Delete Candidate Account</h3>
+                <div class="study-notes-box" style="border-left-color: #991b1b; background: #fff5f5;">
+                    <h4>⚠️ Permanent Account Deletion Warning</h4>
+                    <p style="color: #991b1b; font-weight: 600;">Deleting your account will permanently remove your registration profile, 1-year access licenses, and saved progress from this device's storage.</p>
+                </div>
+                <div class="auth-card" style="margin-top: 20px;">
+                    <form onsubmit="handleDeleteAccount(event)">
+                        <div class="form-group">
+                            <label for="delete-password">Enter Your Password to Confirm Deletion:</label>
+                            <input type="password" id="delete-password" placeholder="Enter your account password" required>
+                        </div>
+                        <button type="submit" class="auth-submit-btn" style="background: #991b1b;">Permanently Delete My Account ⚠️</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <!-- ACCOUNT TAB -->
+        <div id="tab-account" class="tab-content">
+            <section>
+                <h3>Candidate Account Portal</h3>
+                <div id="auth-forms-container" class="auth-card">
+                    <div class="auth-nav">
+                        <button class="auth-nav-btn active" id="btn-tab-register" onclick="toggleAuthMode('register')">Create Account</button>
+                        <button class="auth-nav-btn" id="btn-tab-login" onclick="toggleAuthMode('login')">Sign In</button>
+                        <button class="auth-nav-btn" id="btn-tab-forgot" onclick="toggleAuthMode('forgot')">Forgot Password?</button>
+                    </div>
+
+                    <!-- Register Section -->
+                    <div id="register-section">
+                        <div style="display: flex; gap: 8px; margin-bottom: 18px;">
+                            <div id="reg-step-pill-1" style="flex: 1; padding: 8px 10px; text-align: center; border-radius: 6px; font-size: 0.8rem; font-weight: 700; background: #0284c7; color: white;">
+                                1. Candidate & Department
+                            </div>
+                            <div id="reg-step-pill-2" style="flex: 1; padding: 8px 10px; text-align: center; border-radius: 6px; font-size: 0.8rem; font-weight: 700; background: #e2e8f0; color: #475569;">
+                                2. Payment & Verification
+                            </div>
+                        </div>
+
+                        <div id="reg-step-1">
+                            <div class="method-selector">
+                                <button type="button" class="method-btn active" id="method-phone-btn" onclick="setRegMethod('phone')">📱 Sign Up with Phone</button>
+                                <button type="button" class="method-btn" id="method-email-btn" onclick="setRegMethod('email')">✉️ Sign Up with Email</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-fullname"><strong>Candidate Full Name:</strong></label>
+                                <input type="text" id="reg-fullname" placeholder="Almaz Tadesse Kitessa" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-discipline"><strong>Primary Registered Department:</strong></label>
+                                <select id="reg-discipline" required style="border: 2px solid var(--accent); background:#eff6ff; font-weight:600;">
+                                    <option value="midwifery">Midwifery (12 Domains EHPLE)</option>
+                                    <option value="nursing">Comprehensive Nursing</option>
+                                    <option value="pharmacy">Pharmacy (Exit Exam Blueprint)</option>
+                                    <option value="laboratory">Medical Laboratory Science (EHPLE)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-institution">University / College:</label>
+                                <input type="text" id="reg-institution" placeholder="Bule Hora University / Addis Ababa / Jimma" required>
+                            </div>
+                            <div class="form-group" id="group-phone">
+                                <label for="reg-phone">Ethiopian Mobile Number:</label>
+                                <div class="phone-input-wrap">
+                                    <span class="phone-prefix">🇪🇹 +251</span>
+                                    <input type="tel" id="reg-phone" placeholder="911223344">
+                                </div>
+                            </div>
+                            <div class="form-group" id="group-email" style="display: none;">
+                                <label for="reg-email">Email Address:</label>
+                                <input type="email" id="reg-email" placeholder="candidate@gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-password">Create Account Password:</label>
+                                <input type="password" id="reg-password" placeholder="At least 6 characters" minlength="6" required>
+                            </div>
+                            <button type="button" class="auth-submit-btn" onclick="goToRegStep2()">Proceed to Payment & Verification (Step 2) ➔</button>
+                            <p class="auth-footer-text">Already registered? <a onclick="toggleAuthMode('login')">Sign in here</a></p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div id="reg-step-2" style="display: none;">
+                            <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px;">
+                                <h4 style="color: #1e3a8a; font-size: 0.95rem; margin-bottom: 4px;">💳 Step 2: Account Creation Payment</h4>
+                                <p style="font-size: 0.82rem; color: #475569; margin: 0;">Pay <strong>50 ETB</strong> for account creation.</p>
+                            </div>
+                            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 0.8rem; color: #334155; margin-bottom: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                <div><strong>Candidate:</strong> <span id="reg-summary-name">Almaz Tadesse</span></div>
+                                <div><strong>Candidate ID:</strong> <span id="reg-summary-id" style="color:#0284c7; font-weight:700;">EHPLE-2026-XXXX</span></div>
+                                <div><strong>Contact:</strong> <span id="reg-summary-contact">0911223344</span></div>
+                                <div><strong>Department:</strong> <span id="reg-summary-dept" style="color:#166534; font-weight:700;">MIDWIFERY</span></div>
+                            </div>
+                            <div style="max-height: 130px; overflow-y: auto; margin-bottom: 10px; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px; background: #fafafa;">
+                                <div class="payment-method-box"><strong>📱 TeleBirr</strong> Phone: 0946807143 | Name: Dawit Yadeta</div>
+                                <div class="payment-method-box"><strong>🏦 CBE</strong> Account: 1000730148317 | Name: Dawit Yadeta</div>
+                                <div class="payment-method-box"><strong>🏦 Dashen</strong> Account: 5480500135011 | Name: Dawit Yadeta</div>
+                                <div class="payment-method-box"><strong>🏦 Awash</strong> Account: 013201322724700 | Name: Dawit Yadeta</div>
+                            </div>
+                            <div class="upload-zone" onclick="document.getElementById('reg-receipt-file').click()">
+                                <p>📤 Click here to choose and attach payment receipt</p>
+                                <span style="font-size: 0.75rem; color: #64748b;">Accepts PNG, JPG, JPEG, or PDF</span>
+                                <input type="file" id="reg-receipt-file" accept=".png, .jpg, .jpeg, .pdf" style="display: none;" onchange="handleRegReceiptAttachment(this)">
+                            </div>
+                            <div id="reg-file-name-display" style="font-size: 0.8rem; color: #059669; margin-top: 6px; font-weight: 700; text-align: center; display: none;"></div>
+                            <div id="reg-telegram-status" class="direct-telegram-status" style="margin-top: 8px;"></div>
+                            <div style="margin-top: 10px; text-align: center;">
+                                <button type="button" class="btn-telegram" style="width: 100%; justify-content: center;" onclick="sendRegReceiptToTelegram()">🚀 Send Receipt & Details to @ehplesupport</button>
+                            </div>
+                            <div class="receipt-input-group" style="margin-top: 14px; background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: 8px;">
+                                <label for="reg-verification-code"><strong>Enter Account Creation Code received from @ehplesupport:</strong></label>
+                                <input type="text" id="reg-verification-code">
+                            </div>
+                            <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+                                <button type="button" class="auth-submit-btn" style="background: #059669;" onclick="completeRegistrationWithPayment(true)">✅ Verify Code & Create Account ➔</button>
+                                <button type="button" class="btn" style="background: #475569; width: 100%; font-size: 0.84rem; padding: 10px;" onclick="completeRegistrationWithPayment(false)">⏳ Register with Free Trial (Q1-4) while waiting</button>
+                                <button type="button" class="btn" style="background: transparent; color: #64748b; border: 1px solid #cbd5e1; width: 100%; font-size: 0.82rem;" onclick="goToRegStep1()">← Back</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Login Section -->
+                    <div id="login-section" style="display: none;">
+                        <form onsubmit="handleAccountLogin(event)">
+                            <div class="form-group">
+                                <label for="login-identifier">Registered Phone Number or Email:</label>
+                                <input type="text" id="login-identifier" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Password:</label>
+                                <input type="password" id="login-password" required>
+                            </div>
+                            <button type="submit" class="auth-submit-btn">Sign In to Exam Portal</button>
+                            <p class="auth-footer-text">Don't have an account? <a onclick="toggleAuthMode('register')">Create account</a></p>
+                        </form>
+                    </div>
+
+                    <!-- Forgot Password Section -->
+                    <div id="forgot-section" style="display: none;">
+                        <form onsubmit="handlePasswordResetWithOTP(event)">
+                            <div class="form-group">
+                                <label for="forgot-identifier">Enter Registered Phone Number or Email:</label>
+                                <input type="text" id="forgot-identifier" required>
+                            </div>
+                            <div style="text-align:center; margin-bottom:15px;">
+                                <button type="button" class="btn-telegram" style="width:100%; justify-content:center;" onclick="requestOTPFromAdminTelegram()">💬 Request Reset OTP via Telegram (@ehplesupport)</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="forgot-otp">Enter One-Time OTP Code:</label>
+                                <input type="text" id="forgot-otp" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="forgot-new-password">Set New Password:</label>
+                                <input type="password" id="forgot-new-password" minlength="6" required>
+                            </div>
+                            <button type="submit" class="auth-submit-btn" style="background:#059669;">Reset Password & Sign In ➔</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Profile Dashboard View -->
+                <div id="profile-dashboard-view" class="profile-dashboard" style="display: none;">
+                    <div class="profile-header-card">
+                        <div class="avatar-circle" id="profile-avatar">A</div>
+                        <div class="profile-info">
+                            <h4 id="profile-display-name">
+                                <span id="profile-name-text">Candidate Name</span>
+                                <button type="button" class="btn-edit-name-small" onclick="editCandidateName()">✏️ Edit Name</button>
+                            </h4>
+                            <p id="profile-display-id">ID: EHPLE-2026-ETH</p>
+                        </div>
+                    </div>
+                    <div class="vip-status-card" id="profile-vip-card">
+                        <div>
+                            <div class="vip-title" id="vip-status-title">🔒 License Status</div>
+                            <div class="vip-desc" id="vip-status-desc">Manage your 1-year license.</div>
+                        </div>
+                        <button class="btn" id="vip-action-btn" style="background:#d97706; padding:6px 12px; font-size:0.82rem;" onclick="openPaywall(currentDiscipline)">Unlock Full Access</button>
+                    </div>
+                    <div class="profile-grid">
+                        <div class="profile-stat-box"><strong>Registered Department</strong><span id="profile-display-disc" style="color:#0284c7;">MIDWIFERY</span></div>
+                        <div class="profile-stat-box"><strong>Registered Contact</strong><span id="profile-display-contact">0946807143</span></div>
+                        <div class="profile-stat-box"><strong>Institution</strong><span id="profile-display-inst">Bule Hora University</span></div>
+                        <div class="profile-stat-box"><strong>Access Status</strong><span id="profile-display-all-lic" style="color:#166534;">Free Trial (Q1-4)</span></div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn" style="background:#0284c7; flex:1;" onclick="startStudyingAfterAuth()">Start Studying ➔</button>
+                        <button class="btn" style="background:#ef4444;" onclick="handleCandidateLogout()">Sign Out</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- Paywall Modal -->
+    <div id="paywall-modal" class="paywall-overlay">
+        <div class="paywall-card">
+            <h3>🔒 Request 1-Year Full Access License</h3>
+            <p>Pay <strong>280 ETB</strong> to unlock <strong>365 Days of Unlimited Access</strong> for: <strong style="color:#1e3a8a;" id="paywall-target-discipline">Midwifery</strong>.</p>
+            <div style="max-height: 130px; overflow-y: auto; margin-bottom: 8px; border: 1px solid var(--border); border-radius: 6px; padding: 6px; background: #f8fafc;">
+                <div class="payment-method-box"><strong>📱 TeleBirr</strong> Phone: 0946807143 | Name: Dawit Yadeta</div>
+                <div class="payment-method-box"><strong>🏦 CBE</strong> Account: 1000730148317 | Name: Dawit Yadeta</div>
+                <div class="payment-method-box"><strong>🏦 Dashen</strong> Account: 5480500135011 | Name: Dawit Yadeta</div>
+                <div class="payment-method-box"><strong>🏦 Awash</strong> Account: 013201322724700 | Name: Dawit Yadeta</div>
+            </div>
+            <div class="upload-prompt-header">
+                <strong>📎 Please attach your receipt:</strong>
+                <span>Transfer details and receipt will be sent to <strong>@ehplesupport</strong>.</span>
+            </div>
+            <div class="upload-zone" onclick="document.getElementById('receipt-file').click()">
+                <p>📤 Click here to choose and attach receipt</p>
+                <span style="font-size: 0.75rem; color: #64748b;">Accepts PNG, JPG, JPEG, or PDF</span>
+                <input type="file" id="receipt-file" accept=".png, .jpg, .jpeg, .pdf" style="display: none;" onchange="handleReceiptFileAttachment(this)">
+            </div>
+            <div id="file-name-display" style="font-size: 0.8rem; color: #059669; margin-top: 6px; font-weight: 700; text-align: center; display: none;"></div>
+            <div id="telegram-transmission-status" class="direct-telegram-status"></div>
+            <div id="verification-section" style="display: none;">
+                <div class="request-code-banner">
+                    <p id="telegram-banner-msg">✈️ Ready to send receipt to @ehplesupport</p>
+                    <button type="button" class="btn-telegram" onclick="sendReceiptToTelegram()">🚀 Open Telegram Chat</button>
+                </div>
+                <div class="receipt-input-group">
+                    <label for="verification-code">Enter Verification Code received from @ehplesupport:</label>
+                    <input type="text" id="verification-code">
+                </div>
+                <button class="btn-verify" onclick="verifyAndUnlock()">Verify & Unlock My 1-Year License</button>
+            </div>
+            <button class="btn" style="background:#64748b; width:100%; margin-top:8px;" onclick="closePaywall()">Close</button>
+        </div>
+    </div>
+
+    <!-- PDF Viewer Modal Container -->
+    <div id="pdf-modal-container"></div>
+
+    <footer>
+        <div style="max-width: 600px; margin: 0 auto 15px auto; background: #eff6ff; border: 1px solid #bfdbfe; padding: 15px; border-radius: 8px; text-align: center;">
+            <h4 style="color: #1e3a8a; font-size: 0.95rem; margin-bottom: 5px;">📢 Join Our Community</h4>
+            <a href="https://t.me/ethiopianEHPLE" target="_blank" rel="noopener noreferrer" style="background: #0088cc; color: white; padding: 8px 16px; border-radius: 6px; font-size: 0.88rem; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">✈️ Join Community @ethiopianEHPLE</a>
+        </div>
+        <div style="margin-bottom: 10px; font-size: 0.85rem; color: #475569;">
+            <p><strong>Developed & Owned by:</strong> Dawit Yadeta Kitessa | Phone: +251 94 680 7143</p>
+        </div>
+        <p>&copy; 2026 EHPLE Preparation Study. Built for healthcare excellence.</p>
+    </footer>
+
+    <script>
+        const ADMIN_CONFIG = { telegramUsername: "ehplesupport" };
+        const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+        let attachedReceiptFile = null;
+        let paywallTargetDiscipline = 'midwifery';
+        let serverUpdatedFiles = [];
+
+        let pdfHubSelectedDisc = 'midwifery';
+        let booksHubSelectedDisc = 'midwifery';
+        let updatesHubSelectedDisc = 'midwifery';
+
+        async function fetchServerUpdatedFiles() {
+            try {
+                const response = await fetch('get_updates.php');
+                if (response.ok) {
+                    serverUpdatedFiles = await response.json();
+                    renderUpdatedFilesCards();
+                }
+            } catch (e) {
+                console.log("Auto-detection fallback: get_updates.php not found or offline.");
+            }
+        }
+
+        function isCodeAlreadyUsed(code) {
+            let usedCodes = [];
+            try { usedCodes = JSON.parse(localStorage.getItem('ehple_used_codes') || '[]'); } catch(e) {}
+            return usedCodes.includes(code.trim().toUpperCase());
+        }
+
+        function markCodeAsUsed(code) {
+            let usedCodes = [];
+            try { usedCodes = JSON.parse(localStorage.getItem('ehple_used_codes') || '[]'); } catch(e) {}
+            const upper = code.trim().toUpperCase();
+            if (!usedCodes.includes(upper)) {
+                usedCodes.push(upper);
+                localStorage.setItem('ehple_used_codes', JSON.stringify(usedCodes));
+            }
+        }
+
+        function isValidAccountCreationCode(code) {
+            const clean = (code || '').trim().toUpperCase();
+            return clean.startsWith('ACC-') && clean.length >= 6;
+        }
+
+        function isValidDepartmentCode(discipline, code) {
+            const clean = (code || '').trim().toUpperCase();
+            const prefixMap = { midwifery: 'MID-', nursing: 'NUR-', pharmacy: 'PHA-', laboratory: 'LAB-' };
+            const expectedPrefix = prefixMap[discipline] || 'EHP-';
+            return clean.startsWith(expectedPrefix) && clean.length >= 6;
+        }
+
+        function isValidPasswordResetOTP(code) {
+            const clean = (code || '').trim().toUpperCase();
+            return clean.startsWith('RESET-') || clean.startsWith('OTP-') || clean.length >= 6;
+        }
+
+        function getCurrentDeviceId() {
+            let devId = localStorage.getItem('ehple_device_id');
+            if (!devId) {
+                devId = 'dev_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now();
+                localStorage.setItem('ehple_device_id', devId);
+            }
+            return devId;
+        }
+
+        function checkAndRegisterDeviceSession(userId) {
+            let sessionsDb = {};
+            try { sessionsDb = JSON.parse(localStorage.getItem('ehple_active_sessions_db') || '{}'); } catch(e) {}
+            let userDevices = sessionsDb[userId] || [];
+            const currentDevId = getCurrentDeviceId();
+            if (userDevices.includes(currentDevId)) return true;
+            if (userDevices.length >= 2) return false;
+            userDevices.push(currentDevId);
+            sessionsDb[userId] = userDevices;
+            localStorage.setItem('ehple_active_sessions_db', JSON.stringify(sessionsDb));
+            return true;
+        }
+
+        function removeCurrentDeviceSession(userId) {
+            if (!userId) return;
+            let sessionsDb = {};
+            try { sessionsDb = JSON.parse(localStorage.getItem('ehple_active_sessions_db') || '{}'); } catch(e) {}
+            let userDevices = sessionsDb[userId] || [];
+            const currentDevId = getCurrentDeviceId();
+            sessionsDb[userId] = userDevices.filter(id => id !== currentDevId);
+            localStorage.setItem('ehple_active_sessions_db', JSON.stringify(sessionsDb));
+        }
+
+        function normalizePhone(p) {
+            if (!p) return '';
+            let clean = p.replace(/\D/g, '');
+            if (clean.startsWith('251')) clean = clean.slice(3);
+            if (clean.startsWith('0')) clean = clean.slice(1);
+            return clean;
+        }
+
+        function getCandidateDisplayName(user) {
+            if (!user) return 'Guest Candidate';
+            let name = (user.fullname || '').trim();
+            if (!name || /^Candidate\s*\+?\d+/i.test(name) || /^\+?\d{8,}$/.test(name)) {
+                let usersDb = [];
+                try { usersDb = JSON.parse(localStorage.getItem('ehple_users_db') || '[]'); } catch(e) {}
+                const userNorm = normalizePhone(user.contact);
+                const match = usersDb.find(u => normalizePhone(u.contact) === userNorm && u.fullname && !/^Candidate\s*\+?\d+/i.test(u.fullname));
+                if (match && match.fullname) {
+                    user.fullname = match.fullname;
+                    localStorage.setItem('ehple_active_user', JSON.stringify(user));
+                    return match.fullname;
+                }
+                return "Candidate (Set Name)";
+            }
+            return name;
+        }
+
+        function editCandidateName() {
+            if (!activeUser) return;
+            const current = (activeUser.fullname || '').trim();
+            const defaultPrompt = /^Candidate\s*\+?\d+/i.test(current) ? "" : current;
+            const newName = prompt("Please enter your Full Name:", defaultPrompt);
+            if (newName && newName.trim().length > 0) {
+                activeUser.fullname = newName.trim();
+                localStorage.setItem('ehple_active_user', JSON.stringify(activeUser));
+                try {
+                    let usersDb = JSON.parse(localStorage.getItem('ehple_users_db') || '[]');
+                    let idx = usersDb.findIndex(u => normalizePhone(u.contact) === normalizePhone(activeUser.contact));
+                    if (idx !== -1) usersDb[idx].fullname = activeUser.fullname;
+                    else usersDb.push(activeUser);
+                    localStorage.setItem('ehple_users_db', JSON.stringify(usersDb));
+                } catch(e) {}
+                updateUserUI();
+                alert(`Candidate name updated successfully to: ${activeUser.fullname}`);
+            }
+        }
+
+        const disciplineData = {
+            midwifery: {
+                title: 'Midwifery Licensing & Exit Exam Portal (12 Domains)',
+                courses: [
+                    { id: 'mid_dom1', label: 'Domain 1: Social, Epidemiologic & Cultural Context', weight: '8.5%', summary: 'Social, epidemiologic & cultural context of midwifery practice.', notes: '### Domain 1 Competencies\n* **Public Health & Epidemiology:** Understanding maternal mortality ratios and morbidity determinants in Ethiopia.', pdfFile: 'documents/midwifery-domain-1.pdf' },
+                    { id: 'mid_dom2', label: 'Domain 2: Family Planning & Pre-Pregnancy Care', weight: '8.5%', summary: 'Family planning and pre-pregnancy Midwifery Care.', notes: '### Domain 2 Competencies\n* **Pre-conception Risk:** Screening chronic conditions and prescribing high-dose folic acid (5mg).', pdfFile: 'documents/midwifery-domain-2.pdf' },
+                    { id: 'mid_dom3', label: 'Domain 3: Midwifery Care During Pregnancy', weight: '9.5%', summary: 'Midwifery Care during pregnancy (ANC).', notes: '### Domain 3 Competencies\n* **ANC Contacts:** Implementation of minimum 8 contacts WHO model.', pdfFile: 'documents/midwifery-domain-3.pdf' },
+                    { id: 'mid_dom4', label: 'Domain 4: Care During Labor & Delivery / Birth', weight: '12.0%', summary: 'Midwifery Care during Labor and Delivery/ birth.', notes: '### Domain 4 Competencies\n* **Intrapartum Monitoring:** Standard partograph plotting starting at active phase (5 cm).', pdfFile: 'documents/midwifery-domain-4.pdf' },
+                    { id: 'mid_dom5', label: 'Domain 5: Postpartum Midwifery Care', weight: '9.0%', summary: 'Postpartum Midwifery Care.', notes: '### Domain 5 Competencies\n* **Puerperium Surveillance:** Monitoring uterine involution, lochia changes, and vital signs.', pdfFile: 'documents/midwifery-domain-5.pdf' },
+                    { id: 'mid_dom6', label: 'Domain 6: Newborns & Under-Five Children', weight: '9.0%', summary: 'Midwifery Care for Newborns and under five children.', notes: '### Domain 6 Competencies\n* **Essential Newborn Care:** Thermal regulation, skin-to-skin contact, and Golden Minute.', pdfFile: 'documents/midwifery-domain-6.pdf' },
+                    { id: 'mid_dom7', label: 'Domain 7: Care for Gynecologic Patients', weight: '7.5%', summary: 'Midwifery Care for Gynecologic patients.', notes: '### Domain 7 Competencies\n* **Reproductive Infections:** Diagnosis and management of STIs and RTIs.', pdfFile: 'documents/midwifery-domain-7.pdf' },
+                    { id: 'mid_dom8', label: 'Domain 8: Organizational Management & Leadership', weight: '7.0%', summary: 'Organizational Management & Leadership.', notes: '### Domain 8 Competencies\n* **Health Leadership:** Managing MCH department workflows and quality improvement projects.', pdfFile: 'documents/midwifery-domain-8.pdf' },
+                    { id: 'mid_dom9', label: 'Domain 9: Research & Evidence-Based Practice', weight: '7.5%', summary: 'Research and evidence based midwifery care.', notes: '### Domain 9 Competencies\n* **Clinical Auditing:** Conducting maternal audit cycles.', pdfFile: 'documents/midwifery-domain-9.pdf' },
+                    { id: 'mid_dom10', label: 'Domain 10: Interpersonal Communication', weight: '7.0%', summary: 'Interpersonal relationship and communication.', notes: '### Domain 10 Competencies\n* **Therapeutic Counseling:** Active listening and culturally aligned health education.', pdfFile: 'documents/midwifery-domain-10.pdf' },
+                    { id: 'mid_dom11', label: 'Domain 11: Professional, Ethical & Legal Practice', weight: '8.0%', summary: 'Professional, ethical & legal Midwifery practice.', notes: '### Domain 11 Competencies\n* **Scope of Practice:** Operating within Ethiopian MoH guidelines.', pdfFile: 'documents/midwifery-domain-11.pdf' },
+                    { id: 'mid_dom12', label: 'Domain 12: Foundations of Midwifery', weight: '4.0%', summary: 'Foundation of the Midwifery.', notes: '### Domain 12 Competencies\n* **Historical Context:** Evolution of midwifery in Ethiopia.', pdfFile: 'documents/midwifery-domain-12.pdf' }
+                ]
+            },
+            nursing: {
+                title: 'Undergraduate Nursing Licensing & Qualifying Exam Portal',
+                courses: [
+                    { id: 'nur_adult', label: 'Domain 1.1: Adult Health Nursing', weight: '28.0%', summary: 'Comprehensive nursing care for adult clients.', notes: '### Adult Health Nursing Competencies\n* Holistic Assessment.', pdfFile: 'documents/nursing-adult-health.pdf' },
+                    { id: 'nur_peds', label: 'Domain 1.2: Pediatrics Health Nursing', weight: '25.0%', summary: 'Comprehensive nursing care for pediatric clients.', notes: '### Pediatrics Health Nursing Competencies\n* Neonatal Care.', pdfFile: 'documents/nursing-pediatrics.pdf' },
+                    { id: 'nur_maternity', label: 'Domain 1.3: Maternity Health Nursing', weight: '8.0%', summary: 'Preconception, antepartum, intrapartum, postpartum.', notes: '### Maternity Health Nursing Competencies\n* Antenatal & Intrapartum Care.', pdfFile: 'documents/nursing-maternity.pdf' },
+                    { id: 'nur_mental', label: 'Domain 1.4: Mental Health Nursing', weight: '4.0%', summary: 'Comprehensive nursing care for mentally ill clients.', notes: '### Mental Health Nursing Competencies\n* Psychiatric Assessment.', pdfFile: 'documents/nursing-mental-health.pdf' },
+                    { id: 'nur_lead', label: 'Domain 2: Leadership and Management', weight: '10.0%', summary: 'Managerial and leadership skills.', notes: '### Leadership & Management Competencies\n* Practice Management.', pdfFile: 'documents/nursing-leadership.pdf' },
+                    { id: 'nur_research', label: 'Domain 3: Research and Evidence-Based Practice', weight: '4.0%', summary: 'Commitment to excellence.', notes: '### Research & Evidence-Based Practice\n* Knowledge Translation.', pdfFile: 'documents/nursing-research.pdf' },
+                    { id: 'nur_ethics', label: 'Domain 4: Professionalism and Ethics', weight: '10.0%', summary: 'Upholding nursing practice standards.', notes: '### Professionalism & Ethics\n* Legal Frameworks.', pdfFile: 'documents/nursing-ethics.pdf' },
+                    { id: 'nur_hp', label: 'Domain 5: Health Promotion and Disease Prevention', weight: '11.0%', summary: 'Community diagnosis.', notes: '### Health Promotion\n* Community Diagnosis.', pdfFile: 'documents/nursing-health-promotion.pdf' }
+                ]
+            },
+            pharmacy: {
+                title: 'Pharmacy Licensing & Exit Exam Portal',
+                courses: [
+                    { id: 'pha_therap', label: '1. Integrated Pharmacotherapeutics I-IV', weight: '14.0%', summary: 'Clinical sciences and patient care.', notes: '### Pharmaceutical Care\n* Pathophysiology.', pdfFile: 'documents/pharmacy-pharmacotherapeutics.pdf' },
+                    { id: 'pha_im', label: '2. Internal Medicine Clerkship', weight: '3.5%', summary: 'Pharmaceutical care in hospital internal medicine.', notes: '### Internal Medicine\n* Prescriptions.', pdfFile: 'documents/pharmacy-internal-medicine.pdf' },
+                    { id: 'pha_peds', label: '3. Pediatrics Clerkship', weight: '3.5%', summary: 'Pharmaceutical care for pediatric patients.', notes: '### Pediatrics\n* Pediatric care.', pdfFile: 'documents/pharmacy-pediatrics.pdf' },
+                    { id: 'pha_amb', label: '4. Ambulatory Clerkship', weight: '3.5%', summary: 'Ambulatory patient care.', notes: '### Ambulatory\n* Care plans.', pdfFile: 'documents/pharmacy-ambulatory.pdf' },
+                    { id: 'pha_pharmacol', label: '5. Pharmacology I and II', weight: '8.5%', summary: 'Pharmacokinetics and pharmacodynamics.', notes: '### Pharmacology\n* Mechanisms.', pdfFile: 'documents/pharmacy-pharmacology.pdf' },
+                    { id: 'pha_analysis', label: '6. Pharmaceutical Analysis I and II', weight: '8.5%', summary: 'Analytical techniques.', notes: '### Analysis\n* Analytical methods.', pdfFile: 'documents/pharmacy-analysis.pdf' },
+                    { id: 'pha_phys', label: '7. Physical Pharmacy & Pharmaceutics I-II', weight: '10.5%', summary: 'Formulation and compounding.', notes: '### Pharmaceutics\n* Rheology.', pdfFile: 'documents/pharmacy-pharmaceutics.pdf' },
+                    { id: 'pha_gnosy', label: '8. Pharmacognosy', weight: '4.25%', summary: 'Natural source medicines.', notes: '### Pharmacognosy\n* Herbal drugs.', pdfFile: 'documents/pharmacy-pharmacognosy.pdf' },
+                    { id: 'pha_ind', label: '9. Industrial Pharmacy', weight: '4.25%', summary: 'Industrial manufacturing & GMP.', notes: '### Industrial\n* cGMP.', pdfFile: 'documents/pharmacy-industrial.pdf' },
+                    { id: 'pha_supply', label: '10. Drug Supply Management', weight: '3.75%', summary: 'Supply chains & logistics.', notes: '### Supply\n* Logistics.', pdfFile: 'documents/pharmacy-supply-management.pdf' },
+                    { id: 'pha_medsup', label: '11. Medical Supplies, Equipment & Reagents', weight: '2.5%', summary: 'Medical supplies management.', notes: '### Medical Supplies\n* Equipment.', pdfFile: 'documents/pharmacy-medical-supplies.pdf' },
+                    { id: 'pha_law', label: '12. Pharmacy Law and Ethics', weight: '2.5%', summary: 'Jurisprudence and ethics.', notes: '### Law & Ethics\n* Legal framework.', pdfFile: 'documents/pharmacy-law-ethics.pdf' },
+                    { id: 'pha_info', label: '13. Drug Informatics', weight: '2.5%', summary: 'Information resources.', notes: '### Drug Info\n* Literature.', pdfFile: 'documents/pharmacy-drug-informatics.pdf' },
+                    { id: 'pha_practice', label: '14. Pharmacy Practice', weight: '8.75%', summary: 'Community and hospital practice.', notes: '### Practice\n* Operations.', pdfFile: 'documents/pharmacy-practice.pdf' },
+                    { id: 'pha_comm', label: '15. Communication Skills for Pharmacists', weight: '2.5%', summary: 'Interpersonal communication.', notes: '### Communication\n* Active listening.', pdfFile: 'documents/pharmacy-communication.pdf' }
+                ]
+            },
+            laboratory: {
+                title: 'Medical Laboratory Science Licensing & Exit Exam Portal',
+                courses: [
+                    { id: 'lab_micro', label: '1. Medical Microbiology', weight: '25.0%', summary: 'Bacteriology, virology, mycology, AST.', notes: '### Microbiology\n* AST testing.', pdfFile: 'documents/lab-microbiology.pdf' },
+                    { id: 'lab_parasit', label: '2. Clinical Parasitology', weight: '20.0%', summary: 'Parasitology and malaria microscopy.', notes: '### Parasitology\n* Malaria microscopy.', pdfFile: 'documents/lab-parasitology.pdf' },
+                    { id: 'lab_hemato', label: '3. Hematology & Blood Banking', weight: '20.0%', summary: 'CBC and transfusion science.', notes: '### Hematology\n* Crossmatching.', pdfFile: 'documents/lab-hemato.pdf' },
+                    { id: 'lab_biochem', label: '4. Clinical Chemistry', weight: '20.0%', summary: 'Serum electrolytes and assays.', notes: '### Clinical Chemistry\n* Spectrophotometry.', pdfFile: 'documents/lab-biochem.pdf' },
+                    { id: 'lab_urinalysis_qa', label: '5. Urinalysis, Body Fluids & QA/QC', weight: '15.0%', summary: 'ISO 15189 and IQC standards.', notes: '### QA/QC\n* Westgard rules.', pdfFile: 'documents/lab-qa.pdf' }
+                ]
+            }
+        };
+
+        let currentDiscipline = 'midwifery';
+        let activeCourse = '';
+        let courseState = {};
+        let currentAuthMethod = 'phone';
+        let activeUser = null;
+
+        function generate200QuestionsForModule(discKey, courseObj, courseIdx) {
+            let list = [];
+            list.push({
+                q: `In professional practice regarding ${courseObj.label}, what is the primary protocol?`,
+                options: [
+                    `A. First-line standard guideline recommendation complying with national healthcare benchmarks`,
+                    `B. Alternative secondary management requiring secondary diagnostic verification`,
+                    `C. Contraindicated procedure associated with elevated clinical risk`,
+                    `D. Routine observation without diagnostic or vital monitoring`
+                ],
+                answer: 0,
+                exp: `Prioritize evidence-based primary interventions, patient safety, and adherence to Ethiopian Ministry of Health directives.`
+            });
+            for (let i = 2; i <= 200; i++) {
+                const globalNum = (courseIdx * 200) + i;
+                const correctOptIdx = (i % 4);
+                let questionText = `During clinical evaluation of a patient presenting with manifestations related to ${courseObj.label.toLowerCase()}, which finding or management priority is most critical according to national standards?`;
+                let opts = [
+                    `A. Immediate initiation of evidence-based first-line clinical management and stabilization`,
+                    `B. Delayed observation without diagnostic confirmation or monitoring`,
+                    `C. Administration of unverified medications without patient allergy screening`,
+                    `D. Discharge without post-procedure counseling or follow-up scheduling`
+                ];
+                if (correctOptIdx === 1) {
+                    opts = [
+                        `A. Secondary supportive measure requiring specialist consultation`,
+                        `B. Immediate initiation of evidence-based first-line clinical management and stabilization`,
+                        `C. Contraindicated symptomatic intervention with high adverse reaction rate`,
+                        `D. Immediate patient discharge without clinical evaluation`
+                    ];
+                } else if (correctOptIdx === 2) {
+                    opts = [
+                        `A. Diagnostic omission leading to potential clinical deterioration`,
+                        `B. Routine unsupervised observation without vital sign recording`,
+                        `C. Immediate initiation of evidence-based first-line clinical management and stabilization`,
+                        `D. Non-standard traditional remedy without clinical validation`
+                    ];
+                } else if (correctOptIdx === 3) {
+                    opts = [
+                        `A. Empirical treatment with broad-spectrum agents without sensitivity testing`,
+                        `B. Unmonitored observation in an outpatient setting`,
+                        `C. Unsanitized procedural technique violating infection control protocols`,
+                        `D. Immediate initiation of evidence-based first-line clinical management and stabilization`
+                    ];
+                }
+                list.push({
+                    q: questionText,
+                    options: opts,
+                    answer: correctOptIdx,
+                    exp: `Strict adherence to standardized national clinical protocols ensures optimal patient outcomes and safety.`
+                });
+            }
+            return list;
+        }
+
+        function getDisciplineLicense(discKey) {
+            if (!activeUser) return { active: false, discipline: discKey, user: null };
+            const activeUserId = activeUser.candidateId || activeUser.contact;
+            let deviceLicDb = {};
+            try { deviceLicDb = JSON.parse(localStorage.getItem('ehple_disc_licenses') || '{}'); } catch(e) {}
+            if (deviceLicDb[discKey] && deviceLicDb[discKey].ownerId === activeUserId && Date.now() < deviceLicDb[discKey].expiresAt && deviceLicDb[discKey].active) {
+                return { active: true, discipline: discKey, user: activeUser, expiresAt: deviceLicDb[discKey].expiresAt, verifiedAt: deviceLicDb[discKey].verifiedAt };
+            }
+            return { active: false, discipline: discKey, user: activeUser };
+        }
+
+        function renderDisciplineBar() {
+            const bar = document.getElementById('discipline-bar-container');
+            if (!bar) return;
+            if (!activeUser) {
+                bar.innerHTML = `
+                    <span class="discipline-label">Select Candidate Discipline:</span>
+                    <button class="discipline-btn ${currentDiscipline === 'midwifery' ? 'active' : ''}" onclick="changeDiscipline('midwifery')">Midwifery (12 Domains) 🔒</button>
+                    <button class="discipline-btn ${currentDiscipline === 'nursing' ? 'active' : ''}" onclick="changeDiscipline('nursing')">Nursing 🔒</button>
+                    <button class="discipline-btn ${currentDiscipline === 'pharmacy' ? 'active' : ''}" onclick="changeDiscipline('pharmacy')">Pharmacy 🔒</button>
+                    <button class="discipline-btn ${currentDiscipline === 'laboratory' ? 'active' : ''}" onclick="changeDiscipline('laboratory')">Medical Lab 🔒</button>
+                `;
+            } else {
+                const regDisc = activeUser.discipline || 'midwifery';
+                currentDiscipline = regDisc;
+                const discLabels = { midwifery: 'Midwifery (12 Domains EHPLE)', nursing: 'Comprehensive Nursing', pharmacy: 'Pharmacy', laboratory: 'Medical Laboratory Science' };
+                const lic = getDisciplineLicense(regDisc);
+                const otherDepartments = Object.entries(discLabels)
+                    .filter(([key]) => key !== regDisc)
+                    .map(([key, label]) => `<button class="discipline-btn" onclick="changeDiscipline('${key}')">${label} 💳 280 ETB</button>`)
+                    .join('');
+                bar.innerHTML = `
+                    <span class="discipline-label">Your Registered Department:</span>
+                    <button class="discipline-btn active" style="cursor:default;">
+                        ${discLabels[regDisc] || regDisc.toUpperCase()} <span>${lic.active ? '⭐ Full Access' : '🔒 Free Trial (Q1-4)'}</span>
+                    </button>
+                    ${otherDepartments}
+                `;
+            }
+        }
+
+        function initDiscipline(discKey) {
+            if (activeUser && activeUser.discipline && discKey !== activeUser.discipline && !getDisciplineLicense(discKey).active) {
+                discKey = activeUser.discipline;
+            }
+            currentDiscipline = discKey;
+            renderDisciplineBar();
+            const data = disciplineData[discKey];
+            document.getElementById('hero-title').innerText = data.title;
+
+            const navContainer = document.getElementById('course-nav-tabs');
+            const sectionsContainer = document.getElementById('course-sections-container');
+            navContainer.innerHTML = '';
+            sectionsContainer.innerHTML = '';
+
+            const license = getDisciplineLicense(discKey);
+
+            data.courses.forEach((c, idx) => {
+                courseState[c.id] = { currentIndex: 0, isPaid: license.active, questions: generate200QuestionsForModule(discKey, c, idx) };
+
+                const tabBtn = document.createElement('button');
+                tabBtn.className = `nav-tab ${idx === 0 ? 'active' : ''}`;
+                tabBtn.innerText = c.label;
+                tabBtn.onclick = (e) => switchCourseTab(e, c.id);
+                navContainer.appendChild(tabBtn);
+
+                const isUnlocked = license.active;
+                const parsedNotes = window.marked ? marked.parse(c.notes) : c.notes;
+                const pdfPath = c.pdfFile || `documents/${discKey}-${idx+1}.pdf`;
+
+                const sectionDiv = document.createElement('div');
+                sectionDiv.id = `tab-${c.id}`;
+                sectionDiv.className = `tab-content ${idx === 0 ? 'active' : ''}`;
+                
+                if (!activeUser) {
+                    sectionDiv.innerHTML = `
+                        <section>
+                            <h3>Course Module: ${c.label} (${c.weight} Exam Weight)</h3>
+                            <div class="locked-notes-banner" style="background:#fffbeb; border:1px solid #fde68a; padding:30px; text-align:center;">
+                                <h4 style="color:#b45309; font-size:1.1rem; margin-bottom:10px;">🔒 Account Creation Mandatory</h4>
+                                <p style="color:#475569; margin-bottom:15px;">Please create a free candidate account or sign in to access portal questions.</p>
+                                <button class="btn" style="background:#0284c7;" onclick="switchToAccountTab()">Create Account / Sign In Now ➔</button>
+                            </div>
+                        </section>
+                    `;
+                } else {
+                    sectionDiv.innerHTML = `
+                        <section>
+                            <h3>Course Module: ${c.label} (${c.weight} Exam Weight)</h3>
+                            <div class="study-notes-box">
+                                <h4>📖 Competency Summary & Notes</h4>
+                                <p>${c.summary}</p>
+                                <div id="full-notes-${c.id}" style="display: ${isUnlocked ? 'block' : 'none'}; margin-top: 10px; border-top: 1px dashed #059669; padding-top: 10px;">
+                                    <div class="markdown-body">${parsedNotes}</div>
+                                    <div class="pdf-download-box">
+                                        <p>📥 Online Document Viewer: <code>${pdfPath}</code></p>
+                                        <div class="pdf-action-buttons">
+                                            <button class="btn-download-pdf" onclick="renderEmbeddedPdfModal('${pdfPath}', '${c.label}')">📖 Read Online</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="locked-notes-${c.id}" class="locked-notes-banner" style="display: ${isUnlocked ? 'none' : 'block'};">
+                                    <p>🔒 Full study notes and questions beyond Question 4 require payment verification code.</p>
+                                    <button class="btn-unlock-notes" onclick="openPaywall('${discKey}')">Unlock Full Access for ${discKey.toUpperCase()}</button>
+                                </div>
+                            </div>
+                            <div class="quiz-box-inner" id="quiz-container-${c.id}">
+                                <div class="question-counter" id="counter-${c.id}">QUESTION 1 OF 200</div>
+                                <div class="question-box" id="qtext-${c.id}">Loading...</div>
+                                <div class="options" id="qopt-${c.id}"></div>
+                                <button class="btn" onclick="submitAnswer('${c.id}')">Submit Answer</button>
+                                <button class="btn" id="next-btn-${c.id}" onclick="nextQuestion('${c.id}')" style="display:none; background:#059669;">Next Question ➔</button>
+                                <div id="fb-${c.id}" class="feedback"></div>
+                                <div id="ex-${c.id}" class="explanation"></div>
+                            </div>
+                        </section>
+                    `;
+                }
+                sectionsContainer.appendChild(sectionDiv);
+            });
+
+            // Navigation Tabs
+            const pdfHubBtn = document.createElement('button');
+            pdfHubBtn.className = 'nav-tab pdf-tab-btn';
+            pdfHubBtn.innerText = '📚 PDF Reading Hub';
+            pdfHubBtn.id = 'nav-pdf-hub-btn';
+            pdfHubBtn.onclick = (e) => switchCourseTab(e, 'pdf-hub');
+            navContainer.appendChild(pdfHubBtn);
+
+            const bookTabBtn = document.createElement('button');
+            bookTabBtn.className = 'nav-tab';
+            bookTabBtn.style.background = '#4f46e5';
+            bookTabBtn.style.color = 'white';
+            bookTabBtn.innerText = '📖 EHPLE Textbook Library';
+            bookTabBtn.id = 'nav-books-btn';
+            bookTabBtn.onclick = (e) => switchCourseTab(e, 'books');
+            navContainer.appendChild(bookTabBtn);
+
+            const updatedFilesTabBtn = document.createElement('button');
+            updatedFilesTabBtn.className = 'nav-tab';
+            updatedFilesTabBtn.style.background = '#0d9488';
+            updatedFilesTabBtn.style.color = 'white';
+            updatedFilesTabBtn.innerText = '📁 Updated Files';
+            updatedFilesTabBtn.id = 'nav-updated-files-btn';
+            updatedFilesTabBtn.onclick = (e) => switchCourseTab(e, 'updated-files');
+            navContainer.appendChild(updatedFilesTabBtn);
+
+            const aboutTabBtn = document.createElement('button');
+            aboutTabBtn.className = 'nav-tab about-tab-btn';
+            aboutTabBtn.innerText = 'ℹ️ About Us';
+            aboutTabBtn.id = 'nav-about-btn';
+            aboutTabBtn.onclick = (e) => switchCourseTab(e, 'about-us');
+            navContainer.appendChild(aboutTabBtn);
+
+            const commentsTabBtn = document.createElement('button');
+            commentsTabBtn.className = 'nav-tab comments-tab-btn';
+            commentsTabBtn.innerText = '💬 Community Comments';
+            commentsTabBtn.id = 'nav-comments-btn';
+            commentsTabBtn.onclick = (e) => switchCourseTab(e, 'comments');
+            navContainer.appendChild(commentsTabBtn);
+
+            const supportTabBtn = document.createElement('button');
+            supportTabBtn.className = 'nav-tab support-tab-btn';
+            supportTabBtn.innerText = '✈️ Contact Support';
+            supportTabBtn.id = 'nav-contact-support-btn';
+            supportTabBtn.onclick = (e) => switchCourseTab(e, 'contact-support');
+            navContainer.appendChild(supportTabBtn);
+
+            if (activeUser) {
+                const deleteAccTabBtn = document.createElement('button');
+                deleteAccTabBtn.className = 'nav-tab delete-tab-btn';
+                deleteAccTabBtn.innerText = '🗑️ Delete Account';
+                deleteAccTabBtn.onclick = (e) => switchCourseTab(e, 'delete-account');
+                navContainer.appendChild(deleteAccTabBtn);
+            }
+
+            const accTabBtn = document.createElement('button');
+            accTabBtn.className = 'nav-tab account-tab-btn';
+            const candidateNameOnly = activeUser ? getCandidateDisplayName(activeUser).split(' ')[0] : 'Candidate';
+            accTabBtn.innerText = activeUser ? `👤 ${candidateNameOnly}'s Profile` : '👤 Candidate Account';
+            accTabBtn.id = 'nav-account-btn';
+            accTabBtn.onclick = (e) => switchCourseTab(e, 'account');
+            navContainer.appendChild(accTabBtn);
+
+            if (activeUser) {
+                activeCourse = data.courses[0].id;
+                loadQuestion(activeCourse);
+            }
+            renderPdfHubCards();
+            renderBookHubCards();
+            renderUpdatedFilesCards();
+            refreshLicenseUI();
+        }
+
+        const ehpleTextbooks = [
+            { id: 'm1', title: 'Midwifery Book 1', discipline: 'midwifery', author: 'Author 1', size: '12.4 MB', file: 'documents/books/midwifery-book1.pdf', desc: 'Core midwifery foundation.' },
+            { id: 'm2', title: 'Midwifery Book 2', discipline: 'midwifery', author: 'Author 2', size: '15.1 MB', file: 'documents/books/midwifery-book2.pdf', desc: 'Advanced antenatal care.' },
+            { id: 'n1', title: 'Nursing Book 1', discipline: 'nursing', author: 'Author 1', size: '45.0 MB', file: 'documents/books/nursing-book1.pdf', desc: 'Adult health nursing.' },
+            { id: 'p1', title: 'Pharmacy Book 1', discipline: 'pharmacy', author: 'Author 1', size: '38.4 MB', file: 'documents/books/pharmacy-book1.pdf', desc: 'Pharmacotherapeutics.' },
+            { id: 'l1', title: 'Lab Book 1', discipline: 'laboratory', author: 'Author 1', size: '28.9 MB', file: 'documents/books/lab-book1.pdf', desc: 'Medical microbiology.' }
+        ];
+
+        function detectDisciplineFromFile(filename) {
+            const lower = filename.toLowerCase();
+            if (lower.includes('mid')) return 'midwifery';
+            if (lower.includes('nur')) return 'nursing';
+            if (lower.includes('pha')) return 'pharmacy';
+            if (lower.includes('lab')) return 'laboratory';
+            return 'midwifery';
+        }
+
+        function switchPdfHubDiscipline(disc) {
+            pdfHubSelectedDisc = disc;
+            ['midwifery', 'nursing', 'pharmacy', 'laboratory'].forEach(d => {
+                const btn = document.getElementById(`pdf-hub-btn-${d}`);
+                if (btn) btn.classList.toggle('active', d === disc);
+            });
+            renderPdfHubCards();
+        }
+
+        function switchBooksHubDiscipline(disc) {
+            booksHubSelectedDisc = disc;
+            ['midwifery', 'nursing', 'pharmacy', 'laboratory'].forEach(d => {
+                const btn = document.getElementById(`books-hub-btn-${d}`);
+                if (btn) btn.classList.toggle('active', d === disc);
+            });
+            renderBookHubCards();
+        }
+
+        function switchUpdatesHubDiscipline(disc) {
+            updatesHubSelectedDisc = disc;
+            ['midwifery', 'nursing', 'pharmacy', 'laboratory'].forEach(d => {
+                const btn = document.getElementById(`updates-hub-btn-${d}`);
+                if (btn) btn.classList.toggle('active', d === disc);
+            });
+            renderUpdatedFilesCards();
+        }
+
+        function handleHeaderSearch(e) {
+            const query = (e.target.value || '').toLowerCase().trim();
+            if (query.length < 2) {
+                const searchTab = document.getElementById('tab-search-portal');
+                if (searchTab && searchTab.classList.contains('active')) {
+                    document.getElementById('global-search-results').innerHTML = `<p style="grid-column: 1 / -1; text-align:center; color:#64748b; padding:20px;">Type at least 2 characters to search across modules, textbooks, and files.</p>`;
+                }
+                return;
+            }
+
+            switchCourseTab(null, 'search-portal');
+            const resultsContainer = document.getElementById('global-search-results');
+            if (!resultsContainer) return;
+
+            let matches = [];
+
+            // 1. Search Curriculum Modules & Courses
+            Object.entries(disciplineData).forEach(([discKey, discObj]) => {
+                discObj.courses.forEach((c, idx) => {
+                    if (c.label.toLowerCase().includes(query) || c.summary.toLowerCase().includes(query)) {
+                        matches.push({
+                            title: `[${discKey.toUpperCase()}] ${c.label}`,
+                            desc: c.summary,
+                            meta: `Exam Weight: ${c.weight}`,
+                            actionText: '📖 Study Module',
+                            actionFunc: () => {
+                                changeDiscipline(discKey);
+                                switchCourseTab(null, c.id);
+                            }
+                        });
+                    }
+                });
+            });
+
+            // 2. Search Textbooks
+            ehpleTextbooks.forEach(b => {
+                if (b.title.toLowerCase().includes(query) || b.desc.toLowerCase().includes(query) || b.discipline.toLowerCase().includes(query)) {
+                    const lic = getDisciplineLicense(b.discipline);
+                    matches.push({
+                        title: `[Textbook - ${b.discipline.toUpperCase()}] ${b.title}`,
+                        desc: b.desc,
+                        meta: `Author: ${b.author} | Size: ${b.size}`,
+                        actionText: lic.active ? '📖 Read Book Online' : '🔒 Locked (Unlock ' + b.discipline.toUpperCase() + ')',
+                        actionFunc: () => {
+                            if (lic.active) renderEmbeddedPdfModal(b.file, b.title);
+                            else openPaywall(b.discipline);
+                        }
+                    });
+                }
+            });
+
+            // 3. Search Server Updated Files
+            serverUpdatedFiles.forEach(f => {
+                const disc = detectDisciplineFromFile(f.name);
+                const nameWithoutExt = f.name.replace(/\.[^/.]+$/, "");
+                if (nameWithoutExt.toLowerCase().includes(query) || f.name.toLowerCase().includes(query)) {
+                    matches.push({
+                        title: `[Updated File - ${disc.toUpperCase()}] ${nameWithoutExt}`,
+                        desc: `Server update file: ${f.name}`,
+                        meta: `Size: ${f.size}`,
+                        actionText: '📖 Read Online',
+                        actionFunc: () => renderEmbeddedPdfModal('documents/updates/' + f.name, nameWithoutExt)
+                    });
+                }
+            });
+
+            if (matches.length === 0) {
+                resultsContainer.innerHTML = `<p style="grid-column: 1 / -1; text-align:center; color:#64748b; padding:20px;">No results found matching "${query}".</p>`;
+                return;
+            }
+
+            resultsContainer.innerHTML = '';
+            matches.forEach((m, mIdx) => {
+                const card = document.createElement('div');
+                card.className = 'pdf-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="pdf-card-title">${m.title}</div>
+                        <div class="pdf-card-desc">${m.desc}</div>
+                        <div class="pdf-card-meta"><span>${m.meta}</span></div>
+                    </div>
+                    <div class="pdf-btn-group">
+                        <button class="btn-download-hub" id="search-act-${mIdx}">${m.actionText}</button>
+                    </div>
+                `;
+                resultsContainer.appendChild(card);
+                card.querySelector(`#search-act-${mIdx}`).onclick = m.actionFunc;
+            });
+        }
+
+        function renderBookHubCards(filterText = '') {
+            const container = document.getElementById('book-hub-cards-container');
+            if (!container) return;
+            container.innerHTML = '';
+            const query = filterText.toLowerCase();
+            const filtered = ehpleTextbooks.filter(b => b.discipline === booksHubSelectedDisc).filter(b => b.title.toLowerCase().includes(query) || b.desc.toLowerCase().includes(query));
+            if (filtered.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1 / -1; text-align:center; color:#64748b; padding:20px;">No books found for ${booksHubSelectedDisc.toUpperCase()}.</p>`;
+                return;
+            }
+            if (!activeUser) {
+                container.innerHTML = `<div style="grid-column: 1 / -1; background:#fffbeb; border:1px solid #fde68a; padding:30px; border-radius:8px; text-align:center;"><h4 style="color:#b45309; margin-bottom:10px;">🔒 Account Required</h4><button class="btn" style="background:#0284c7;" onclick="switchToAccountTab()">Sign In Now ➔</button></div>`;
+                return;
+            }
+            filtered.forEach(b => {
+                const lic = getDisciplineLicense(b.discipline);
+                const card = document.createElement('div');
+                card.className = 'pdf-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="pdf-card-title">${b.title}</div>
+                        <div class="pdf-card-desc">${b.desc}</div>
+                        <div class="pdf-card-meta"><span>Author: ${b.author}</span><span>Size: ${b.size}</span></div>
+                    </div>
+                    ${lic.active ? `<div class="pdf-btn-group"><button class="btn-download-hub" onclick="renderEmbeddedPdfModal('${b.file}', '${b.title}')">📖 Read Book Online</button></div>` : `<button class="btn-download-hub locked" onclick="openPaywall('${b.discipline}')">🔒 Locked (Unlock ${b.discipline.toUpperCase()})</button>`}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterTextbooks() {
+            const input = document.getElementById('book-search-input');
+            renderBookHubCards(input ? input.value : '');
+        }
+
+        function renderUpdatedFilesCards(filterText = '') {
+            const container = document.getElementById('updated-files-cards-container');
+            if (!container) return;
+            container.innerHTML = '';
+            const query = filterText.toLowerCase();
+
+            const formattedFiles = serverUpdatedFiles.map(f => {
+                const nameWithoutExt = f.name.replace(/\.[^/.]+$/, "");
+                return {
+                    label: nameWithoutExt,
+                    discipline: detectDisciplineFromFile(f.name),
+                    size: f.size,
+                    file: 'documents/updates/' + f.name,
+                    desc: 'Server update file: ' + f.name
+                };
+            });
+
+            const filtered = formattedFiles.filter(f => f.discipline === updatesHubSelectedDisc).filter(f => f.label.toLowerCase().includes(query) || f.desc.toLowerCase().includes(query));
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1 / -1; text-align:center; color:#64748b; padding:20px;">No updated files uploaded yet for ${updatesHubSelectedDisc.toUpperCase()}.</p>`;
+                return;
+            }
+            if (!activeUser) {
+                container.innerHTML = `<div style="grid-column: 1 / -1; background:#fffbeb; border:1px solid #fde68a; padding:30px; border-radius:8px; text-align:center;"><h4 style="color:#b45309; margin-bottom:10px;">🔒 Account Required</h4><button class="btn" style="background:#0284c7;" onclick="switchToAccountTab()">Sign In Now ➔</button></div>`;
+                return;
+            }
+            const lic = getDisciplineLicense(updatesHubSelectedDisc);
+            filtered.forEach(f => {
+                const card = document.createElement('div');
+                card.className = 'pdf-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="pdf-card-title" style="font-family: monospace; font-size: 1.05rem; color: #0d9488;">${f.label}</div>
+                        <div class="pdf-card-desc">${f.desc}</div>
+                        <div class="pdf-card-meta"><span>Size: ${f.size}</span></div>
+                    </div>
+                    ${lic.active ? `<div class="pdf-btn-group"><button class="btn-download-hub" style="background:#0d9488;" onclick="renderEmbeddedPdfModal('${f.file}', '${f.label}')">📖 Read Online</button></div>` : `<button class="btn-download-hub locked" onclick="openPaywall('${updatesHubSelectedDisc}')">🔒 Locked (Unlock ${updatesHubSelectedDisc.toUpperCase()})</button>`}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterUpdatedFiles() {
+            const input = document.getElementById('updated-file-search-input');
+            renderUpdatedFilesCards(input ? input.value : '');
+        }
+
+        function renderPdfHubCards() {
+            const container = document.getElementById('pdf-hub-cards-container');
+            if (!container) return;
+            const data = disciplineData[pdfHubSelectedDisc];
+            const lic = getDisciplineLicense(pdfHubSelectedDisc);
+            container.innerHTML = '';
+            if (!activeUser) {
+                container.innerHTML = `<div style="grid-column: 1 / -1; background:#fffbeb; border:1px solid #fde68a; padding:30px; border-radius:8px; text-align:center;"><h4 style="color:#b45309; margin-bottom:10px;">🔒 Account Required</h4><button class="btn" style="background:#0284c7;" onclick="switchToAccountTab()">Sign In Now ➔</button></div>`;
+                return;
+            }
+            data.courses.forEach((c, idx) => {
+                const pdfPath = c.pdfFile || `documents/${pdfHubSelectedDisc}-${idx+1}.pdf`;
+                const card = document.createElement('div');
+                card.className = 'pdf-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="pdf-card-title">${c.label}</div>
+                        <div class="pdf-card-desc">${c.summary}</div>
+                        <div class="pdf-card-meta"><span>Weight: ${c.weight}</span></div>
+                    </div>
+                    ${lic.active ? `<div class="pdf-btn-group"><button class="btn-download-hub" onclick="renderEmbeddedPdfModal('${pdfPath}', '${c.label}')">📖 Read Online</button></div>` : `<button class="btn-download-hub locked" onclick="openPaywall('${pdfHubSelectedDisc}')">🔒 Locked (Unlock ${pdfHubSelectedDisc.toUpperCase()})</button>`}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderEmbeddedPdfModal(pdfUrl, moduleTitle) {
+            if (!activeUser) {
+                alert("Account creation is mandatory to view documents.");
+                switchToAccountTab();
+                return;
+            }
+            let targetDisc = currentDiscipline;
+            if (pdfUrl.includes('documents/books/')) {
+                const foundBook = ehpleTextbooks.find(b => b.file === pdfUrl);
+                if (foundBook) targetDisc = foundBook.discipline;
+            } else if (pdfUrl.includes('documents/updates/')) {
+                targetDisc = detectDisciplineFromFile(pdfUrl);
+            } else if (pdfUrl.includes('midwifery')) {
+                targetDisc = 'midwifery';
+            } else if (pdfUrl.includes('nursing')) {
+                targetDisc = 'nursing';
+            } else if (pdfUrl.includes('pharmacy')) {
+                targetDisc = 'pharmacy';
+            } else if (pdfUrl.includes('lab')) {
+                targetDisc = 'laboratory';
+            }
+            const lic = getDisciplineLicense(targetDisc);
+            if (!lic.active && !pdfUrl.includes('documents/updates/')) {
+                alert(`Document reading is locked for ${targetDisc.toUpperCase()}.`);
+                openPaywall(targetDisc);
+                return;
+            }
+            const modalHTML = `
+                <div class="pdf-viewer-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:3000; display:flex; flex-direction:column; padding:20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#1e293b; color:white; padding:12px 20px; border-radius:8px 8px 0 0;">
+                        <h3 style="margin:0; font-size:1rem;">📖 Reader: ${moduleTitle}</h3>
+                        <button onclick="closePdfModal()" style="background:#ef4444; color:white; border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer;">Close ✕</button>
+                    </div>
+                    <div style="flex:1; background:white; border-radius:0 0 8px 8px; overflow:hidden;">
+                        <object data="${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf" width="100%" height="100%">
+                            <iframe src="${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="100%" style="border:none;"></iframe>
+                        </object>
+                    </div>
+                </div>
+            `;
+            let modalWrapper = document.getElementById('pdf-modal-container');
+            if (!modalWrapper) {
+                modalWrapper = document.createElement('div');
+                modalWrapper.id = 'pdf-modal-container';
+                document.body.appendChild(modalWrapper);
+            }
+            modalWrapper.innerHTML = modalHTML;
+        }
+
+        function closePdfModal() {
+            const modalWrapper = document.getElementById('pdf-modal-container');
+            if (modalWrapper) modalWrapper.innerHTML = '';
+        }
+
+        function changeDiscipline(discKey) {
+            if (activeUser && activeUser.discipline && discKey !== activeUser.discipline) {
+                if (!getDisciplineLicense(discKey).active) {
+                    openPaywall(discKey);
+                    return;
+                }
+            }
+            initDiscipline(discKey);
+            renderUpdatedFilesCards();
+        }
+
+        function switchCourseTab(evt, courseId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            if (courseId === 'search-portal') {
+                document.getElementById('tab-search-portal').classList.add('active');
+            } else if (courseId === 'pdf-hub') {
+                document.getElementById('tab-pdf-hub').classList.add('active');
+                const btn = document.getElementById('nav-pdf-hub-btn');
+                if (btn) btn.classList.add('active');
+                renderPdfHubCards();
+            } else if (courseId === 'books') {
+                document.getElementById('tab-books').classList.add('active');
+                const btn = document.getElementById('nav-books-btn');
+                if (btn) btn.classList.add('active');
+                renderBookHubCards();
+            } else if (courseId === 'updated-files') {
+                document.getElementById('tab-updated-files').classList.add('active');
+                const btn = document.getElementById('nav-updated-files-btn');
+                if (btn) btn.classList.add('active');
+                renderUpdatedFilesCards();
+            } else if (courseId === 'about-us') {
+                document.getElementById('tab-about-us').classList.add('active');
+                const btn = document.getElementById('nav-about-btn');
+                if (btn) btn.classList.add('active');
+            } else if (courseId === 'comments') {
+                document.getElementById('tab-comments').classList.add('active');
+                const btn = document.getElementById('nav-comments-btn');
+                if (btn) btn.classList.add('active');
+                loadComments();
+            } else if (courseId === 'contact-support') {
+                document.getElementById('tab-contact-support').classList.add('active');
+                const btn = document.getElementById('nav-contact-support-btn');
+                if (btn) btn.classList.add('active');
+            } else if (courseId === 'delete-account') {
+                if (!activeUser) { alert("Please sign in first."); switchToAccountTab(); return; }
+                document.getElementById('tab-delete-account').classList.add('active');
+                const btn = document.getElementById('nav-delete-btn');
+                if (btn) btn.classList.add('active');
+            } else if (courseId === 'account') {
+                document.getElementById('tab-account').classList.add('active');
+                const btn = document.getElementById('nav-account-btn');
+                if (btn) btn.classList.add('active');
+            } else {
+                if (!activeUser) { alert("Account creation is mandatory to access questions."); switchToAccountTab(); return; }
+                const lic = getDisciplineLicense(currentDiscipline);
+                const state = courseState[courseId];
+                if (state && state.currentIndex > 3 && !lic.active) { openPaywall(currentDiscipline); return; }
+                document.getElementById(`tab-${courseId}`).classList.add('active');
+                if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
+                activeCourse = courseId;
+                loadQuestion(activeCourse);
+            }
+        }
+
+        function switchToAccountTab() {
+            switchCourseTab(null, 'account');
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
+        function loadComments() {
+            const container = document.getElementById('comments-list-container');
+            const formContainer = document.getElementById('comment-form-container');
+            const loginPrompt = document.getElementById('comment-login-prompt');
+            if (!container) return;
+            if (activeUser) {
+                if (formContainer) formContainer.style.display = 'block';
+                if (loginPrompt) loginPrompt.style.display = 'none';
+            } else {
+                if (formContainer) formContainer.style.display = 'none';
+                if (loginPrompt) loginPrompt.style.display = 'block';
+            }
+            let commentsDb = [];
+            try { commentsDb = JSON.parse(localStorage.getItem('ehple_comments_db') || '[]'); } catch(e) {}
+            if (commentsDb.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color:#64748b; font-style:italic; padding:20px;">No comments yet.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            commentsDb.sort((a, b) => b.timestamp - a.timestamp);
+            commentsDb.forEach(c => {
+                const dateStr = new Date(c.timestamp).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                const card = document.createElement('div');
+                card.style.cssText = "background:white; border:1px solid var(--border); padding:15px; border-radius:8px; margin-bottom:12px;";
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <div><strong style="color:#1e3a8a; font-size:0.92rem;">👤 ${c.authorName}</strong><span style="font-size:0.78rem; background:#eff6ff; color:#2563eb; padding:2px 8px; border-radius:12px; margin-left:8px; font-weight:600;">🏛️ ${c.institution}</span></div>
+                        <span style="font-size:0.75rem; color:#64748b;">${dateStr}</span>
+                    </div>
+                    <p style="font-size:0.88rem; color:#334155; white-space: pre-wrap; margin-top:4px;">${escapeHtml(c.text)}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function handlePostComment(e) {
+            e.preventDefault();
+            if (!activeUser) { alert("Please sign in."); switchToAccountTab(); return; }
+            const input = document.getElementById('comment-text-input');
+            const text = input.value.trim();
+            if (!text) return;
+            let commentsDb = [];
+            try { commentsDb = JSON.parse(localStorage.getItem('ehple_comments_db') || '[]'); } catch(e) {}
+            commentsDb.push({ id: 'c_' + Date.now(), authorName: getCandidateDisplayName(activeUser), institution: activeUser.institution || 'University', text: text, timestamp: Date.now() });
+            localStorage.setItem('ehple_comments_db', JSON.stringify(commentsDb));
+            input.value = '';
+            loadComments();
+        }
+
+        function handleDeleteAccount(e) {
+            e.preventDefault();
+            if (!activeUser) return;
+            const passwordInput = document.getElementById('delete-password').value;
+            if (passwordInput !== activeUser.password) { alert("Incorrect password."); return; }
+            if (!confirm("Are you sure you want to permanently delete your account?")) return;
+            removeCurrentDeviceSession(activeUser.candidateId || activeUser.contact);
+            let usersDb = [];
+            try { usersDb = JSON.parse(localStorage.getItem('ehple_users_db') || '[]'); } catch(e) {}
+            const normContact = normalizePhone(activeUser.contact);
+            usersDb = usersDb.filter(u => normalizePhone(u.contact) !== normContact);
+            localStorage.setItem('ehple_users_db', JSON.stringify(usersDb));
+            localStorage.removeItem('ehple_active_user');
+            activeUser = null;
+            updateUserUI();
+            initDiscipline('midwifery');
+            switchCourseTab(null, 'account');
+            alert("Account deleted.");
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        function toggleAuthMode(mode) {
+            document.getElementById('btn-tab-register').classList.remove('active');
+            document.getElementById('btn-tab-login').classList.remove('active');
+            document.getElementById('btn-tab-forgot').classList.remove('active');
+            document.getElementById('register-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('forgot-section').style.display = 'none';
+            if (mode === 'register') { document.getElementById('btn-tab-register').classList.add('active'); document.getElementById('register-section').style.display = 'block'; }
+            else if (mode === 'login') { document.getElementById('btn-tab-login').classList.add('active'); document.getElementById('login-section').style.display = 'block'; }
+            else if (mode === 'forgot') { document.getElementById('btn-tab-forgot').classList.add('active'); document.getElementById('forgot-section').style.display = 'block'; }
+        }
+
+        function setRegMethod(method) {
+            currentAuthMethod = method;
+            document.getElementById('method-phone-btn').classList.toggle('active', method === 'phone');
+            document.getElementById('method-email-btn').classList.toggle('active', method === 'email');
+            document.getElementById('group-phone').style.display = method === 'phone' ? 'block' : 'none';
+            document.getElementById('group-email').style.display = method === 'email' ? 'block' : 'none';
+            document.getElementById('reg-phone').required = (method === 'phone');
+            document.getElementById('reg-email').required = (method === 'email');
+        }
+
+        let pendingRegCandidate = null;
+
+        function goToRegStep2() {
+            const fullname = document.getElementById('reg-fullname').value.trim();
+            const chosenDiscipline = document.getElementById('reg-discipline').value;
+            const institution = document.getElementById('reg-institution').value.trim();
+            const password = document.getElementById('reg-password').value;
+
+            if (!fullname || fullname.length < 2) { alert("Enter full name."); return; }
+            if (!institution || institution.length < 2) { alert("Enter institution."); return; }
+
+            let contact = '';
+            if (currentAuthMethod === 'phone') {
+                let rawPhone = document.getElementById('reg-phone').value.trim().replace(/\s+/g, '');
+                if (!/^(09|07|\+2519|\+2517|2519|2517|9|7)\d{8}$/.test(rawPhone)) { alert("Enter a valid Ethiopian phone number."); return; }
+                contact = rawPhone.startsWith('+251') ? rawPhone : (rawPhone.startsWith('0') ? rawPhone : '0' + rawPhone);
+            } else {
+                contact = document.getElementById('reg-email').value.trim().toLowerCase();
+                if (!contact || !contact.includes('@')) { alert("Enter a valid email."); return; }
+            }
+            if (!password || password.length < 6) { alert("Password must be at least 6 characters."); return; }
+
+            let usersDb = [];
+            try { usersDb = JSON.parse(localStorage.getItem('ehple_users_db') || '[]'); } catch(e) {}
+            const normContact = normalizePhone(contact);
+            if (usersDb.some(u => normalizePhone(u.contact) === normContact || (u.contact || '').toLowerCase() === contact)) {
+                alert("Account already exists. Please sign in.");
+                toggleAuthMode('login');
+                return;
+            }
+
+            const candidateId = `EHPLE-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+            pendingRegCandidate = { fullname, discipline: chosenDiscipline, institution, contactMethod: currentAuthMethod, contact, password, candidateId };
+
+            const deptLabels = { midwifery: 'Midwifery', nursing: 'Nursing', pharmacy: 'Pharmacy', laboratory: 'Medical Lab' };
+            document.getElementById('reg-summary-name').innerText = fullname;
+            document.getElementById('reg-summary-id').innerText = candidateId;
+            document.getElementById('reg-summary-contact').innerText = contact;
+            document.getElementById('reg-summary-dept').innerText = chosenDiscipline.toUpperCase();
+            document.getElementById('reg-summary-dept-label').innerText = deptLabels[chosenDiscipline];
+
+            document.getElementById('reg-step-1').style.display = 'none';
+            document.getElementById('reg-step-2').style.display = 'block';
+        }
+
+        function goToRegStep1() {
+            document.getElementById('reg-step-2').style.display = 'none';
+            document.getElementById('reg-step-1').style.display = 'block';
+        }
+
+        function handleRegReceiptAttachment(input) {
+            const display = document.getElementById('reg-file-name-display');
+            const statusBox = document.getElementById('reg-telegram-status');
+            if (!input.files || !input.files[0]) return;
+            attachedRegReceiptFile = input.files[0];
+            display.innerText = `📎 Attached Receipt: ${attachedRegReceiptFile.name}`;
+            display.style.display = 'block';
+            statusBox.style.display = 'block';
+            statusBox.innerHTML = `✅ Ready! Send receipt to <strong>@${ADMIN_CONFIG.telegramUsername}</strong>.`;
+            openTelegramWithMessage(buildRegTelegramText(), statusBox);
+        }
+
+        function buildRegTelegramText() {
+            return `Hello @${ADMIN_CONFIG.telegramUsername}, I am registering for EHPLE License.\n\nName: ${pendingRegCandidate.fullname}\nID: ${pendingRegCandidate.candidateId}\nDept: ${pendingRegCandidate.discipline.toUpperCase()}\nContact: ${pendingRegCandidate.contact}`;
+        }
+
+        function openTelegramWithMessage(text, statusBox) {
+            const url = `https://t.me/${ADMIN_CONFIG.telegramUsername}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
+        function sendRegReceiptToTelegram() {
+            if (!pendingRegCandidate || !attachedRegReceiptFile) { alert("Please attach receipt first."); return; }
+            openTelegramWithMessage(buildRegTelegramText(), document.getElementById('reg-telegram-status'));
+        }
+
+        function completeRegistrationWithPayment(isVerifyingWithCode) {
+            if (!pendingRegCandidate || !attachedRegReceiptFile) { alert("Please complete details and attach receipt."); return; }
+            let usersDb = [];
+            try { usersDb = JSON.parse(localStorage.getItem('ehple_users_db') || '[]'); } catch(e) {}
+            const userId = pendingRegCandidate.candidateId || pendingRegCandidate.contact;
+            if (!checkAndRegisterDeviceSession(userId)) { alert("Device session limit reached."); return; }
+
+            if (isVerifyingWithCode) {
+                const codeInput = (document.getElementById('reg-verification-code').value || '').trim().toUpperCase();
+                if (!codeInput) { alert("Enter verification code."); return; }
+                if (isCodeAlreadyUsed(codeInput)) { alert("Code already used."); return; }
+                if (!isValidAccountCreationCode(codeInput)) { alert("Invalid account code format. Must start with ACC-"); return; }
+                markCodeAsUsed(codeInput);
+
+                const userData = { ...pendingRegCandidate, isPaid: false, verifiedAt: Date.now(), expiresAt: null, verifiedCode: codeInput, receiptAttached: true };
+                usersDb.push(userData);
+                localStorage.setItem('ehple_users_db', JSON.stringify(usersDb));
+                localStorage.setItem('ehple_active_user', JSON.stringify(userData));
+                activeUser = userData;
+                alert(`Account created successfully for ${userData.discipline.toUpperCase()}!`);
+                updateUserUI();
+                initDiscipline(userData.discipline);
+                switchCourseTab(null, disciplineData[userData.discipline].courses[0].id);
+            } else {
+                const userData = { ...pendingRegCandidate, isPaid: false, verifiedAt: null, expiresAt: null, receiptAttached: true, pendingApproval: true };
+                usersDb.push(userData);
+                localStorage.setItem('ehple_users_db', JSON.stringify(usersDb));
+                localStorage.setItem('ehple_active_user', JSON.stringify(userData));
+                activeUser = userData;
+                alert("Registered with Free Trial (Q1-4). Waiting for code verification.");
+                updateUserUI();
+                initDiscipline(userData.discipline);
+                switchCourseTab(null, disciplineData[userData.discipline].courses[0].id);
+            }
+        }
+
+        function handleAccountLogin(e) {
+            e.preventDefault();
+            const identifier = document.getElementById('login-identifier').value.trim();
+            const password = document.getElementById('login-password').value;
+            const normId = normalizePhone(identifier);
+            let usersDb = [];
+            try { usersDb = JSON.parse(localStorage.getItem('ehple_users_db') || '[]'); } catch(e) {}
+            let found = usersDb.find(u => (normalizePhone(u.contact) === normId || u.contact?.toLowerCase() === identifier.toLowerCase()) && u.password === password);
+            if (found) {
+                if (!checkAndRegisterDeviceSession(found.candidateId || found.contact)) { alert("Device session limit reached."); return; }
+                activeUser = found;
+                localStorage.setItem('ehple_active_user', JSON.stringify(activeUser));
+                updateUserUI();
+                changeDiscipline(activeUser.discipline);
+                switchCourseTab(null, disciplineData[activeUser.discipline].courses[0].id);
+                return;
+            }
+            alert("Invalid credentials.");
+        }
+
+        function requestOTPFromAdminTelegram() {
+            const identifier = document.getElementById('forgot-identifier').value.trim();
+            if (!identifier) { alert("Enter phone or email."); return; }
+            const url = `https://t.me/${ADMIN_CONFIG.telegramUsername}?text=${encodeURIComponent(`Password reset request for: ${identifier}`)}`;
+            window.open(url, '_blank');
+        }
+
+        function handlePasswordResetWithOTP(e) {
+            e.preventDefault();
+            const identifier = document.getElementById('forgot-identifier').value.trim();
+            const otpCode = document.getElementById('forgot-otp').value.trim().toUpperCase();
+            const newPassword = document.getElementById('forgot-new-password').value;
+            if (isCodeAlreadyUsed(otpCode)) { alert("OTP already used."); return; }
+            if (!isValidPasswordResetOTP(otpCode)) { alert("Invalid OTP format."); return; }
+            markCodeAsUsed(otpCode);
+            let usersDb = [];
+            try { usersDb = JSON.parse(localStorage.getItem('ehple_users_db') || '[]'); } catch(e) {}
+            const normId = normalizePhone(identifier);
+            let userIdx = usersDb.findIndex(u => normalizePhone(u.contact) === normId || u.contact?.toLowerCase() === identifier.toLowerCase());
+            if (userIdx === -1) { alert("User not found."); return; }
+            usersDb[userIdx].password = newPassword;
+            localStorage.setItem('ehple_users_db', JSON.stringify(usersDb));
+            activeUser = usersDb[userIdx];
+            localStorage.setItem('ehple_active_user', JSON.stringify(activeUser));
+            updateUserUI();
+            changeDiscipline(activeUser.discipline);
+            alert("Password successfully reset!");
+        }
+
+        function handleCandidateLogout() {
+            if (confirm("Sign out?")) {
+                if (activeUser) removeCurrentDeviceSession(activeUser.candidateId || activeUser.contact);
+                localStorage.removeItem('ehple_active_user');
+                activeUser = null;
+                updateUserUI();
+                initDiscipline('midwifery');
+            }
+        }
+
+        function updateUserUI() {
+            const headerStatus = document.getElementById('header-user-status');
+            const authCard = document.getElementById('auth-forms-container');
+            const profileView = document.getElementById('profile-dashboard-view');
+            const navBtn = document.getElementById('nav-account-btn');
+            const currentLic = getDisciplineLicense(currentDiscipline);
+
+            ['midwifery', 'nursing', 'pharmacy', 'laboratory'].forEach(d => {
+                const badge = document.getElementById(`disc-status-${d}`);
+                if (badge) badge.innerText = getDisciplineLicense(d).active ? '⭐' : '🔒';
+            });
+
+            if (activeUser) {
+                const candidateFullName = getCandidateDisplayName(activeUser);
+                headerStatus.innerHTML = `
+                    <span class="user-badge clickable" onclick="editCandidateName()" title="Click to edit name" style="background:#166534; color:#dcfce7; cursor:pointer;">👤 ${candidateFullName} (${activeUser.discipline.toUpperCase()}) ✏️</span>
+                    <span class="access-pill ${currentLic.active ? 'active' : 'free'}" id="header-access-pill">${currentLic.active ? `⭐ Full Access` : `🔒 Free Trial (Q1-4)`}</span>
+                    <button class="btn-header-auth" style="background:#ef4444; color:white;" onclick="handleCandidateLogout()">Sign Out</button>
+                `;
+                authCard.style.display = 'none';
+                profileView.style.display = 'block';
+                document.getElementById('profile-avatar').innerText = candidateFullName.charAt(0).toUpperCase();
+                document.getElementById('profile-name-text').innerText = candidateFullName;
+                document.getElementById('profile-display-id').innerText = `ID: ${activeUser.candidateId}`;
+                document.getElementById('profile-display-disc').innerText = activeUser.discipline.toUpperCase();
+                document.getElementById('profile-display-contact').innerText = activeUser.contact;
+                document.getElementById('profile-display-inst').innerText = activeUser.institution || 'University';
+                document.getElementById('profile-display-all-lic').innerText = currentLic.active ? 'Full Access Active' : 'Free Trial (Q1-4)';
+                if (navBtn) navBtn.innerText = `👤 ${candidateFullName.split(' ')[0]}'s Profile`;
+            } else {
+                headerStatus.innerHTML = `
+                    <span class="access-pill free" id="header-access-pill">🔒 Account Required</span>
+                    <button class="btn-header-auth" onclick="switchToAccountTab()">Sign Up / Sign In</button>
+                `;
+                authCard.style.display = 'block';
+                profileView.style.display = 'none';
+                if (navBtn) navBtn.innerText = '👤 Candidate Account';
+            }
+            renderDisciplineBar();
+            refreshLicenseUI();
+        }
+
+        function refreshLicenseUI() {
+            const ribbon = document.getElementById('license-ribbon');
+            const currentLic = getDisciplineLicense(currentDiscipline);
+            const welcomeSection = document.getElementById('welcome-intro-section');
+
+            if (welcomeSection) {
+                welcomeSection.style.display = currentLic.active ? 'none' : 'block';
+            }
+
+            if (!activeUser) {
+                ribbon.className = "license-ribbon warning";
+                ribbon.style.display = 'block';
+                ribbon.innerHTML = `🔒 <strong>Account Required:</strong> Please sign in to access portal features.`;
+            } else if (currentLic.active) {
+                ribbon.className = "license-ribbon";
+                ribbon.style.display = 'block';
+                ribbon.innerHTML = `⭐ <strong>Full Access Active for ${currentDiscipline.toUpperCase()}!</strong>`;
+            } else {
+                ribbon.style.display = 'block';
+                ribbon.className = "license-ribbon warning";
+                ribbon.innerHTML = `ℹ️ <strong>${currentDiscipline.toUpperCase()} Free Trial (Q1-4).</strong> Full access requires verification code.`;
+            }
+        }
+
+        function startStudyingAfterAuth() {
+            changeDiscipline(activeUser ? activeUser.discipline : 'midwifery');
+        }
+
+        function loadQuestion(course) {
+            if (!activeUser) return;
+            const state = courseState[course];
+            if (!state) return;
+            const idx = state.currentIndex;
+            const lic = getDisciplineLicense(currentDiscipline);
+            if (idx > 3 && !lic.active) { openPaywall(currentDiscipline); return; }
+            const q = state.questions[idx];
+            document.getElementById(`counter-${course}`).innerText = `QUESTION ${idx + 1} OF 200`;
+            document.getElementById(`qtext-${course}`).innerText = q.q;
+            const optContainer = document.getElementById(`qopt-${course}`);
+            optContainer.innerHTML = '';
+            q.options.forEach((opt, oIdx) => {
+                optContainer.innerHTML += `<label><input type="radio" name="ans_${course}" value="${oIdx}"> ${opt}</label>`;
+            });
+            document.getElementById(`fb-${course}`).style.display = 'none';
+            document.getElementById(`ex-${course}`).style.display = 'none';
+            document.getElementById(`next-btn-${course}`).style.display = 'none';
+        }
+
+        function submitAnswer(course) {
+            if (!activeUser) { switchToAccountTab(); return; }
+            const state = courseState[course];
+            const lic = getDisciplineLicense(currentDiscipline);
+            if (state.currentIndex > 3 && !lic.active) { openPaywall(currentDiscipline); return; }
+            const selected = document.querySelector(`input[name="ans_${course}"]:checked`);
+            const fb = document.getElementById(`fb-${course}`);
+            const ex = document.getElementById(`ex-${course}`);
+            if (!selected) { alert('Please select an option.'); return; }
+            const userAns = parseInt(selected.value);
+            const q = state.questions[state.currentIndex];
+            fb.style.display = 'block';
+            ex.style.display = 'block';
+            ex.innerHTML = `<strong>Rationale:</strong> ${q.exp}`;
+            if (userAns === q.answer) {
+                fb.className = 'feedback correct';
+                fb.innerHTML = 'Correct!';
+            } else {
+                fb.className = 'feedback incorrect';
+                fb.innerHTML = `Incorrect. Correct option is ${String.fromCharCode(65 + q.answer)}.`;
+            }
+            document.getElementById(`next-btn-${course}`).style.display = 'inline-block';
+        }
+
+        function nextQuestion(course) {
+            if (!activeUser) { switchToAccountTab(); return; }
+            const state = courseState[course];
+            const lic = getDisciplineLicense(currentDiscipline);
+            if (state.currentIndex >= 3 && !lic.active) { openPaywall(currentDiscipline); return; }
+            if (state.currentIndex < state.questions.length - 1) {
+                state.currentIndex++;
+                loadQuestion(course);
+            } else {
+                alert('Completed all 200 questions!');
+            }
+        }
+
+        function openPaywall(discKey) {
+            if (!activeUser) { switchToAccountTab(); return; }
+            paywallTargetDiscipline = discKey || currentDiscipline;
+            const lic = getDisciplineLicense(paywallTargetDiscipline);
+            if (lic.active) { alert("Already active!"); return; }
+            document.getElementById('paywall-target-discipline').innerText = paywallTargetDiscipline.toUpperCase();
+            document.getElementById('paywall-modal').style.display = 'flex';
+        }
+
+        function handleReceiptFileAttachment(input) {
+            const display = document.getElementById('file-name-display');
+            const verificationSection = document.getElementById('verification-section');
+            const statusBox = document.getElementById('telegram-transmission-status');
+            if (!input.files || !input.files[0]) return;
+            attachedReceiptFile = input.files[0];
+            display.innerText = `📎 Attached Receipt: ${attachedReceiptFile.name}`;
+            display.style.display = 'block';
+            verificationSection.style.display = 'block';
+            statusBox.style.display = 'block';
+            statusBox.innerHTML = `✅ Ready to send receipt to <strong>@${ADMIN_CONFIG.telegramUsername}</strong>.`;
+        }
+
+        function sendReceiptToTelegram() {
+            if (!attachedReceiptFile) { alert('Please attach receipt first.'); return; }
+            const text = `Hello @${ADMIN_CONFIG.telegramUsername}, payment made for 1-Year License (${paywallTargetDiscipline.toUpperCase()}).\nName: ${getCandidateDisplayName(activeUser)}\nID: ${activeUser.candidateId}`;
+            window.open(`https://t.me/${ADMIN_CONFIG.telegramUsername}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function verifyAndUnlock() {
+            const fileInput = document.getElementById('receipt-file');
+            const codeInput = document.getElementById('verification-code').value.trim().toUpperCase();
+            if (!fileInput.files || fileInput.files.length === 0) { alert('Attach receipt first.'); return; }
+            if (!codeInput) { alert('Enter verification code.'); return; }
+            if (isCodeAlreadyUsed(codeInput)) { alert("Code already used."); return; }
+            if (!isValidDepartmentCode(paywallTargetDiscipline, codeInput)) { alert(`Invalid code format for ${paywallTargetDiscipline.toUpperCase()}`); return; }
+            markCodeAsUsed(codeInput);
+
+            const now = Date.now();
+            let discLicDb = {};
+            try { discLicDb = JSON.parse(localStorage.getItem('ehple_disc_licenses') || '{}'); } catch(e) {}
+            discLicDb[paywallTargetDiscipline] = { active: true, discipline: paywallTargetDiscipline, ownerId: activeUser.candidateId || activeUser.contact, verifiedAt: now, expiresAt: now + ONE_YEAR_MS, code: codeInput };
+            localStorage.setItem('ehple_disc_licenses', JSON.stringify(discLicDb));
+            closePaywall();
+            alert(`License successfully activated for ${paywallTargetDiscipline.toUpperCase()}!`);
+            currentDiscipline = paywallTargetDiscipline;
+            initDiscipline(paywallTargetDiscipline);
+            updateUserUI();
+        }
+
+        function closePaywall() {
+            document.getElementById('paywall-modal').style.display = 'none';
+            document.getElementById('verification-section').style.display = 'none';
+            document.getElementById('file-name-display').style.display = 'none';
+            document.getElementById('telegram-transmission-status').style.display = 'none';
+            document.getElementById('receipt-file').value = '';
+            document.getElementById('verification-code').value = '';
+        }
+
+        window.onload = function() {
+            const stored = localStorage.getItem('ehple_active_user');
+            if (stored) {
+                try {
+                    activeUser = JSON.parse(stored);
+                    currentDiscipline = activeUser.discipline || 'midwifery';
+                } catch(e) {}
+            }
+            fetchServerUpdatedFiles();
+            initDiscipline(currentDiscipline);
+            updateUserUI();
+        };
+    </script>
+</body>
+</html>
